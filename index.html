@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>☕ Dashboard Keuangan Kopi Melek 24 Jam</title>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Inter','Segoe UI',sans-serif;
+}
+
+
+body{
+
+    background:#eef3f8;
+    padding:20px;
+
+}
+
+
+
+.dashboard-wrapper{
+
+    max-width:1400px;
+    width:100%;
+    margin:auto;
+    background:white;
+    border-radius:25px;
+    padding:30px;
+    box-shadow:0 10px 35px rgba(0,0,0,.08);
+
+}
+
+
+
+.header{
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:15px;
+    border-bottom:2px solid #edf2f7;
+    padding-bottom:20px;
+    margin-bottom:25px;
+
+}
+
+
+
+.header h1{
+
+    font-size:30px;
+    color:#1e293b;
+
+}
+
+
+
+.badge{
+
+    display:inline-block;
+    background:#1e293b;
+    color:white;
+    padding:7px 15px;
+    border-radius:50px;
+    margin-top:8px;
+    font-size:13px;
+
+}
+
+
+
+.button-group{
+
+    display:flex;
+    gap:10px;
+
+}
+
+
+
+button{
+
+    border:none;
+    cursor:pointer;
+    padding:10px 18px;
+    border-radius:30px;
+    font-weight:600;
+
+}
+
+
+
+.btn{
+
+    background:#f1f5f9;
+    color:#334155;
+
+}
+
+
+
+.btn-primary{
+
+    background:#1e293b;
+    color:white;
+
+}
+
+
+
+/* SUMMARY */
+
+
+.summary{
+
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:18px;
+    margin-bottom:25px;
+
+}
+
+
+
+.summary-card{
+
+    background:#f8fafc;
+    border-radius:20px;
+    padding:20px;
+
+}
+
+
+
+.summary-card span{
+
+    color:#64748b;
+    font-size:13px;
+    font-weight:600;
+
+}
+
+
+
+.summary-card h2{
+
+    margin-top:10px;
+    font-size:25px;
+    color:#0f172a;
+
+}
+
+
+
+.green{
+
+    color:#15803d!important;
+
+}
+
+
+
+.red{
+
+    color:#dc2626!important;
+
+}
+
+
+
+
+/* CHART */
+
+
+.chart-grid{
+
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+    margin-bottom:25px;
+
+}
+
+
+
+.card{
+
+    background:white;
+    border:1px solid #e5e7eb;
+    border-radius:20px;
+    padding:20px;
+
+}
+
+
+
+.card h3{
+
+    color:#334155;
+    margin-bottom:15px;
+
+}
+
+
+
+/* TABLE */
+
+
+.table-card{
+
+    margin-top:20px;
+
+}
+
+
+
+.table-scroll{
+
+    overflow-x:auto;
+
+}
+
+
+
+table{
+
+    width:100%;
+    border-collapse:collapse;
+
+}
+
+
+
+th{
+
+    background:#edf3fa;
+    padding:12px;
+    color:#334155;
+
+}
+
+
+
+td{
+
+    padding:10px;
+    border-bottom:1px solid #e5e7eb;
+    text-align:center;
+
+}
+
+
+
+.total-row{
+
+    font-weight:bold;
+    background:#f8fafc;
+
+}
+
+
+
+/* RESPONSIVE */
+
+
+@media(max-width:800px){
+
+.chart-grid{
+
+    grid-template-columns:1fr;
+
+}
+
+
+.dashboard-wrapper{
+
+    padding:15px;
+
+}
+
+
+.header h1{
+
+    font-size:22px;
+
+}
+
+}
+
+
+
+</style>
+
+</head>
+
+
+
+<body>
+
+
+
+<div class="dashboard-wrapper" id="dashboard">
+
+
+<div class="header">
+
+
+<div>
+
+<h1>
+☕ Kopi Melek 24 Jam
+</h1>
+
+
+<div class="badge">
+Cash Flow & Laporan Keuangan
+</div>
+
+
+</div>
+
+
+
+<div class="button-group">
+
+
+<button class="btn" onclick="saveImage()">
+
+🖼 Gambar
+
+</button>
+
+
+
+<button class="btn-primary" onclick="window.print()">
+
+📄 PDF
+
+</button>
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+<div class="summary">
+
+
+
+<div class="summary-card">
+
+<span>
+Total Pengeluaran
+</span>
+
+<h2 class="red" id="totalPengeluaran">
+
+Rp0
+
+</h2>
+
+</div>
+
+
+
+
+<div class="summary-card">
+
+<span>
+Total Investasi
+</span>
+
+<h2 id="totalInvestasi">
+
+Rp0
+
+</h2>
+
+</div>
+
+
+
+
+<div class="summary-card">
+
+<span>
+Total Produk F&B
+</span>
+
+<h2 id="jumlahProduk">
+
+0
+
+</h2>
+
+</div>
+
+
+
+
+<div class="summary-card">
+
+<span>
+Harga Jual Customer
+</span>
+
+<h2 class="green">
+
+Rp8.000 - Rp15.000
+
+</h2>
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+<div class="chart-grid">
+
+
+<div class="card">
+
+<h3>
+📊 Komposisi Cash Flow
+</h3>
+
+
+<canvas id="chartPie"></canvas>
+
+
+</div>
+
+
+
+<div class="card">
+
+<h3>
+📈 Investasi Terbesar
+</h3>
+
+
+<canvas id="chartBar"></canvas>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+<div class="table-card card">
+
+
+<h3>
+📋 Rekap Pengeluaran Kopi Melek 24 Jam
+</h3>
+
+
+
+<div class="table-scroll">
+
+
+<table>
+
+
+<thead>
+
+<tr>
+
+<th>No</th>
+
+<th>Nama</th>
+
+<th>Qty</th>
+
+<th>Total</th>
+
+</tr>
+
+</thead>
+
+
+<tbody id="dataTable">
+
+</tbody>
+
+
+
+<tfoot>
+
+<tr class="total-row">
+
+<td colspan="3">
+
+TOTAL
+
+</td>
+
+
+<td id="totalTable">
+
+Rp0
+
+</td>
+
+
+</tr>
+
+</tfoot>
+
+
+</table>
+
+
+</div>
+
+
+</div>
+
+
+</div>
+<script>
+
+let laporanData;
+
+
+function rupiah(angka){
+
+    return "Rp " + angka.toLocaleString("id-ID");
+
+}
+
+
+
+// LOAD JSON
+
+fetch("data.json")
+
+.then(response=>response.json())
+
+.then(data=>{
+
+    laporanData=data;
+
+    renderDashboard();
+
+})
+
+.catch(error=>{
+
+    alert("Data JSON tidak ditemukan");
+
+    console.log(error);
+
+});
+
+
+
+
+
+function renderDashboard(){
+
+
+    let data = laporanData.months[0];
+
+
+    document.getElementById("totalPengeluaran").innerHTML =
+    rupiah(data.summary.totalPengeluaran);
+
+
+
+    document.getElementById("totalInvestasi").innerHTML =
+    rupiah(data.summary.totalInvestasi);
+
+
+
+    document.getElementById("jumlahProduk").innerHTML =
+    data.summary.totalProduk + " Item";
+
+
+
+
+    let tbody=document.getElementById("dataTable");
+
+    let total=0;
+
+    let nomor=1;
+
+
+
+    tbody.innerHTML="";
+
+
+
+    // F&B STOCK
+
+    data.cashflow.stokFNB.forEach(item=>{
+
+
+        total += item.harga;
+
+
+        tbody.innerHTML += `
+
+        <tr>
+
+        <td>${nomor++}</td>
+
+        <td>${item.nama}</td>
+
+        <td>${item.qty}</td>
+
+        <td>${rupiah(item.harga)}</td>
+
+        </tr>
+
+        `;
+
+
+    });
+
+
+
+
+    // INVESTASI
+
+
+    data.cashflow.investasi.forEach(item=>{
+
+
+        total += item.harga;
+
+
+        tbody.innerHTML += `
+
+        <tr>
+
+        <td>${nomor++}</td>
+
+        <td>${item.nama}</td>
+
+        <td>-</td>
+
+        <td>${rupiah(item.harga)}</td>
+
+        </tr>
+
+        `;
+
+
+    });
+
+
+
+
+    document.getElementById("totalTable").innerHTML =
+    rupiah(total);
+
+
+
+    buatChart(data);
+
+
+
+}
+
+
+
+
+
+
+
+function buatChart(data){
+
+
+
+    new Chart(
+    document.getElementById("chartPie"),
+    {
+
+        type:"doughnut",
+
+        data:{
+
+            labels:[
+
+            "F&B",
+
+            "Investasi"
+
+            ],
+
+
+            datasets:[{
+
+                data:[
+
+                data.summary.totalStok,
+
+                data.summary.totalInvestasi
+
+                ]
+
+            }]
+
+
+        },
+
+        options:{
+
+            responsive:true,
+
+            plugins:{
+
+                legend:{
+
+                    position:"bottom"
+
+                }
+
+            }
+
+        }
+
+
+    });
+
+
+
+
+
+
+
+    let investasi=[...data.cashflow.investasi];
+
+
+    investasi.sort((a,b)=>b.harga-a.harga);
+
+
+
+    investasi=investasi.slice(0,8);
+
+
+
+
+    new Chart(
+
+    document.getElementById("chartBar"),
+
+    {
+
+
+        type:"bar",
+
+
+        data:{
+
+
+            labels:
+
+            investasi.map(x=>x.nama),
+
+
+
+            datasets:[{
+
+
+                label:"Rupiah",
+
+
+                data:
+
+                investasi.map(x=>x.harga)
+
+
+
+            }]
+
+
+        },
+
+
+
+        options:{
+
+
+            indexAxis:"y",
+
+
+            responsive:true,
+
+
+
+            plugins:{
+
+
+                legend:{
+
+
+                    display:false
+
+
+                }
+
+
+            },
+
+
+            scales:{
+
+
+                x:{
+
+
+                    ticks:{
+
+
+                        callback:function(value){
+
+
+                            return "Rp"+
+
+                            value.toLocaleString("id-ID");
+
+
+                        }
+
+
+                    }
+
+
+                }
+
+
+            }
+
+
+
+        }
+
+
+
+    });
+
+
+
+}
+
+
+
+
+
+
+
+// SAVE IMAGE
+
+
+async function saveImage(){
+
+
+
+    let area=document.getElementById("dashboard");
+
+
+
+    let canvas=await html2canvas(area,{
+
+        scale:2,
+
+        backgroundColor:"#ffffff"
+
+    });
+
+
+
+
+    let link=document.createElement("a");
+
+
+    link.download="Dashboard_Kopi_Melek_24_Jam.png";
+
+
+    link.href=canvas.toDataURL("image/png");
+
+
+    link.click();
+
+
+
+}
+
+
+
+
+</script>
+
+
+</body>
+
+</html>
