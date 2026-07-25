@@ -5,9 +5,9 @@
       "business": "Kopi Melek 24 Jam",
 
       "summary": {
-        "totalStok": 2228760,
+        "totalStok": 2275760,
         "totalInvestasi": 19546184,
-        "totalPengeluaran": 21774944,
+        "totalPengeluaran": 21821944,
         "totalProduk": 151,
         "hppPerCup": 3700,
 
@@ -20,7 +20,6 @@
 
 
       "cashflow": {
-
 
         "stokFNB": [
 
@@ -116,7 +115,7 @@
 
           {
             "nama": "Gula Pasir 2 Kg",
-            "qty": 2,
+            "qty": 1,
             "harga": 35000
           },
 
@@ -133,7 +132,6 @@
           }
 
         ],
-
 
 
         "investasi": [
@@ -221,7 +219,6 @@
         ]
 
       },
-
 
 
       "hargaJual": [
