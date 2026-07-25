@@ -5,11 +5,12 @@
       "business": "Kopi Melek 24 Jam",
 
       "summary": {
-        "totalStok": 253100,
+        "totalStok": 2228760,
         "totalInvestasi": 19546184,
-        "totalPengeluaran": 19799284,
+        "totalPengeluaran": 21774944,
         "totalProduk": 151,
         "hppPerCup": 3700,
+
         "hargaJual": {
           "minimum": 8000,
           "normal": 10000,
@@ -17,7 +18,9 @@
         }
       },
 
+
       "cashflow": {
+
 
         "stokFNB": [
 
@@ -132,6 +135,7 @@
         ],
 
 
+
         "investasi": [
 
           {
@@ -219,6 +223,7 @@
       },
 
 
+
       "hargaJual": [
 
         {
@@ -254,5 +259,4 @@
     }
 
   ]
-
 }
