@@ -2,79 +2,74 @@
 <html lang="id">
 
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>☕ Dashboard Keuangan Kopi Melek 24 Jam</title>
+<title>
+☕ Dashboard Keuangan Kopi Melek 24 Jam
+</title>
+
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
 
 <style>
 
-/* =========================
-   RESET
-========================= */
 
 *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Inter','Segoe UI',sans-serif;
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
 }
 
 
-/* =========================
-   BODY
-========================= */
 
 body{
-    background:#eef3f8;
-    padding:20px;
+
+background:#eef3f8;
+padding:20px;
+
 }
 
 
-/* =========================
-   CONTAINER
-========================= */
 
 .dashboard-wrapper{
 
-    max-width:1400px;
-    margin:auto;
-    background:#ffffff;
-    padding:30px;
-    border-radius:25px;
-    box-shadow:0 10px 35px rgba(0,0,0,.08);
+max-width:1400px;
+margin:auto;
+background:white;
+padding:30px;
+border-radius:25px;
+box-shadow:0 10px 35px rgba(0,0,0,.08);
 
 }
 
 
-
-/* =========================
-   HEADER
-========================= */
 
 
 .header{
 
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    flex-wrap:wrap;
-    gap:15px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+flex-wrap:wrap;
 
-    border-bottom:2px solid #edf2f7;
-    padding-bottom:20px;
-    margin-bottom:25px;
+border-bottom:2px solid #edf2f7;
+padding-bottom:20px;
+margin-bottom:25px;
 
 }
 
 
+
 .header h1{
 
-    font-size:30px;
-    color:#1e293b;
+font-size:30px;
+color:#1e293b;
 
 }
 
@@ -82,46 +77,32 @@ body{
 
 .badge{
 
-    display:inline-block;
-    margin-top:8px;
+margin-top:8px;
+display:inline-block;
 
-    padding:7px 15px;
+padding:8px 15px;
 
-    background:#1e293b;
-    color:white;
+background:#1e293b;
+color:white;
 
-    border-radius:50px;
+border-radius:50px;
 
-    font-size:13px;
-
-}
-
-
-
-
-/* =========================
-   BUTTON
-========================= */
-
-
-.button-group{
-
-    display:flex;
-    gap:10px;
+font-size:13px;
 
 }
+
 
 
 button{
 
-    border:none;
-    cursor:pointer;
+border:none;
+cursor:pointer;
 
-    padding:10px 18px;
+padding:10px 18px;
 
-    border-radius:30px;
+border-radius:30px;
 
-    font-weight:600;
+font-weight:bold;
 
 }
 
@@ -129,8 +110,7 @@ button{
 
 .btn{
 
-    background:#f1f5f9;
-    color:#334155;
+background:#f1f5f9;
 
 }
 
@@ -138,29 +118,24 @@ button{
 
 .btn-primary{
 
-    background:#1e293b;
-    color:white;
+background:#1e293b;
+
+color:white;
 
 }
 
 
 
-
-/* =========================
-   SUMMARY CARD
-========================= */
-
-
 .summary{
 
-    display:grid;
+display:grid;
 
-    grid-template-columns:
-    repeat(auto-fit,minmax(220px,1fr));
+grid-template-columns:
+repeat(auto-fit,minmax(220px,1fr));
 
-    gap:18px;
+gap:18px;
 
-    margin-bottom:25px;
+margin-bottom:25px;
 
 }
 
@@ -168,11 +143,11 @@ button{
 
 .summary-card{
 
-    background:#f8fafc;
+background:#f8fafc;
 
-    padding:20px;
+padding:20px;
 
-    border-radius:20px;
+border-radius:20px;
 
 }
 
@@ -180,11 +155,11 @@ button{
 
 .summary-card span{
 
-    color:#64748b;
+color:#64748b;
 
-    font-size:13px;
+font-size:13px;
 
-    font-weight:600;
+font-weight:bold;
 
 }
 
@@ -192,18 +167,9 @@ button{
 
 .summary-card h2{
 
-    margin-top:10px;
+margin-top:10px;
 
-    font-size:25px;
-
-    color:#0f172a;
-
-}
-
-
-.green{
-
-    color:#15803d!important;
+font-size:25px;
 
 }
 
@@ -211,41 +177,43 @@ button{
 
 .red{
 
-    color:#dc2626!important;
+color:#dc2626;
 
 }
 
 
+.green{
 
+color:#15803d;
 
-/* =========================
-   CHART
-========================= */
+}
+
 
 
 .chart-grid{
 
-    display:grid;
+display:grid;
 
-    grid-template-columns:1fr 1fr;
+grid-template-columns:1fr 1fr;
 
-    gap:20px;
+gap:20px;
 
-    margin-bottom:25px;
+margin-bottom:25px;
 
 }
+
 
 
 
 .card{
 
-    background:white;
+background:white;
 
-    border:1px solid #e5e7eb;
+border:1px solid #e5e7eb;
 
-    border-radius:20px;
+border-radius:20px;
 
-    padding:20px;
+padding:20px;
 
 }
 
@@ -253,23 +221,19 @@ button{
 
 .card h3{
 
-    margin-bottom:15px;
+margin-bottom:15px;
 
-    color:#334155;
+color:#334155;
 
 }
 
 
 
 
-/* =========================
-   TABLE
-========================= */
+table{
 
-
-.table-card{
-
-    margin-top:20px;
+width:100%;
+border-collapse:collapse;
 
 }
 
@@ -277,17 +241,7 @@ button{
 
 .table-scroll{
 
-    overflow-x:auto;
-
-}
-
-
-
-table{
-
-    width:100%;
-
-    border-collapse:collapse;
+overflow-x:auto;
 
 }
 
@@ -295,11 +249,9 @@ table{
 
 th{
 
-    background:#edf3fa;
+background:#edf3fa;
 
-    padding:12px;
-
-    color:#334155;
+padding:12px;
 
 }
 
@@ -307,11 +259,11 @@ th{
 
 td{
 
-    padding:10px;
+padding:10px;
 
-    text-align:center;
+text-align:center;
 
-    border-bottom:1px solid #e5e7eb;
+border-bottom:1px solid #ddd;
 
 }
 
@@ -319,50 +271,40 @@ td{
 
 .total-row{
 
-    font-weight:bold;
+font-weight:bold;
 
-    background:#f8fafc;
+background:#f8fafc;
 
 }
 
 
 
-/* =========================
-   RESPONSIVE
-========================= */
-
-
 @media(max-width:800px){
 
-    body{
-        padding:10px;
-    }
+.chart-grid{
+
+grid-template-columns:1fr;
+
+}
 
 
-    .dashboard-wrapper{
+.dashboard-wrapper{
 
-        padding:15px;
+padding:15px;
 
-    }
+}
 
+.header h1{
 
-    .chart-grid{
+font-size:22px;
 
-        grid-template-columns:1fr;
-
-    }
-
-
-    .header h1{
-
-        font-size:22px;
-
-    }
+}
 
 }
 
 
 </style>
+
 
 </head>
 
@@ -372,8 +314,6 @@ td{
 
 <div class="dashboard-wrapper" id="dashboard">
 
-
-<!-- HEADER -->
 
 <div class="header">
 
@@ -394,16 +334,22 @@ Cash Flow & Laporan Keuangan
 
 
 
-<div class="button-group">
+<div>
 
 
-<button class="btn" onclick="saveImage()">
+<button class="btn"
+onclick="saveImage()">
+
 🖼 Gambar
+
 </button>
 
 
-<button class="btn-primary" onclick="window.print()">
+<button class="btn-primary"
+onclick="window.print()">
+
 📄 PDF
+
 </button>
 
 
@@ -411,13 +357,7 @@ Cash Flow & Laporan Keuangan
 
 
 </div>
-
-
-
-
-
 <!-- SUMMARY -->
-
 
 <div class="summary">
 
@@ -428,9 +368,7 @@ Cash Flow & Laporan Keuangan
 Total Pengeluaran
 </span>
 
-<h2 
-id="totalPengeluaran"
-class="red">
+<h2 id="totalPengeluaran" class="red">
 Rp0
 </h2>
 
@@ -469,7 +407,7 @@ Total Produk F&B
 <div class="summary-card">
 
 <span>
-Harga Jual Customer
+Harga Customer
 </span>
 
 <h2 class="green">
@@ -479,6 +417,7 @@ Rp8.000 - Rp15.000
 </div>
 
 
+
 </div>
 
 
@@ -486,7 +425,6 @@ Rp8.000 - Rp15.000
 
 
 <!-- CHART -->
-
 
 <div class="chart-grid">
 
@@ -503,6 +441,7 @@ Rp8.000 - Rp15.000
 
 
 
+
 <div class="card">
 
 <h3>
@@ -514,8 +453,8 @@ Rp8.000 - Rp15.000
 </div>
 
 
-</div>
 
+</div>
 
 
 
@@ -524,13 +463,12 @@ Rp8.000 - Rp15.000
 <!-- TABLE -->
 
 
-<div class="card table-card">
+<div class="card">
 
 
 <h3>
-📋 Rekap Pengeluaran Kopi Melek 24 Jam
+📋 Detail Pengeluaran Kopi Melek 24 Jam
 </h3>
-
 
 
 <div class="table-scroll">
@@ -553,13 +491,14 @@ Rp8.000 - Rp15.000
 
 </tr>
 
-
 </thead>
+
 
 
 <tbody id="dataTable">
 
 </tbody>
+
 
 
 <tfoot>
@@ -570,11 +509,14 @@ Rp8.000 - Rp15.000
 TOTAL
 </td>
 
+
 <td id="totalTable">
 Rp0
 </td>
 
+
 </tr>
+
 
 </tfoot>
 
@@ -588,6 +530,7 @@ Rp0
 </div>
 
 
+
 </div>
 
 
@@ -599,43 +542,57 @@ Rp0
 
 let laporanData;
 
+
 let pieChart;
 
 let barChart;
 
 
 
+
+
 function rupiah(angka){
 
-    return "Rp " + angka.toLocaleString("id-ID");
+return "Rp " + angka.toLocaleString("id-ID");
 
 }
 
 
 
 
-// LOAD DATA JSON
+
+// LOAD JSON
 
 
 fetch("data.json")
 
-.then(response=>response.json())
+.then(res=>res.json())
 
 .then(data=>{
 
-    laporanData=data;
 
-    renderDashboard();
+laporanData=data;
+
+
+renderDashboard();
+
 
 })
 
-.catch(error=>{
+.catch(err=>{
 
-    console.error(error);
 
-    alert("data.json tidak ditemukan");
+console.error(err);
+
+
+alert(
+"data.json tidak ditemukan"
+);
+
 
 });
+
+
 
 
 
@@ -645,33 +602,57 @@ fetch("data.json")
 function renderDashboard(){
 
 
-const data=laporanData.months[0];
+const data =
+laporanData.months[0];
 
+
+
+
+
+// SUMMARY
 
 
 document.getElementById(
 "totalPengeluaran"
-).innerHTML=
-rupiah(data.summary.totalPengeluaran);
+).innerHTML =
+rupiah(
+data.summary.totalPengeluaran
+);
+
 
 
 
 document.getElementById(
 "totalInvestasi"
-).innerHTML=
-rupiah(data.summary.totalInvestasi);
+).innerHTML =
+rupiah(
+data.summary.totalInvestasi
+);
+
 
 
 
 document.getElementById(
 "jumlahProduk"
-).innerHTML=
-data.summary.totalProduk+" Item";
+).innerHTML =
+data.summary.totalProduk
++
+" Item";
 
 
 
 
-let tbody=document.getElementById("dataTable");
+
+
+// TABLE
+
+
+let tbody =
+document.getElementById(
+"dataTable"
+);
+
+
 
 tbody.innerHTML="";
 
@@ -679,34 +660,67 @@ tbody.innerHTML="";
 
 let total=0;
 
-let nomor=1;
+let no=1;
 
 
 
+let semuaData=[
 
-[
+
 ...data.cashflow.stokFNB,
+
+
 ...data.cashflow.investasi
 
-].forEach(item=>{
+
+];
 
 
-total+=item.harga;
 
 
-tbody.innerHTML+=`
+
+
+semuaData.forEach(item=>{
+
+
+let subtotal =
+item.harga *
+(item.qty ?? 1);
+
+
+
+total += subtotal;
+
+
+
+tbody.innerHTML += `
+
 
 <tr>
 
-<td>${nomor++}</td>
 
-<td>${item.nama}</td>
+<td>
+${no++}
+</td>
 
-<td>${item.qty ?? "-"}</td>
 
-<td>${rupiah(item.harga)}</td>
+<td>
+${item.nama}
+</td>
+
+
+<td>
+${item.qty ?? "-"}
+</td>
+
+
+<td>
+${rupiah(subtotal)}
+</td>
+
 
 </tr>
+
 
 `;
 
@@ -718,8 +732,9 @@ tbody.innerHTML+=`
 
 document.getElementById(
 "totalTable"
-).innerHTML=
+).innerHTML =
 rupiah(total);
+
 
 
 
@@ -733,7 +748,11 @@ buatChart(data);
 
 
 
+
+
+
 function buatChart(data){
+
 
 
 if(pieChart)
@@ -747,52 +766,83 @@ barChart.destroy();
 
 
 
-pieChart=new Chart(
 
-document.getElementById("chartPie"),
+
+// PIE CHART
+
+
+pieChart = new Chart(
+
+document.getElementById(
+"chartPie"
+),
 
 {
 
+
 type:"doughnut",
+
 
 data:{
 
+
 labels:[
-"F&B",
+
+"Stok F&B",
+
 "Investasi"
+
 ],
+
+
 
 datasets:[{
 
+
 data:[
+
 
 data.summary.totalStok,
 
+
 data.summary.totalInvestasi
+
 
 ]
 
+
 }]
+
 
 },
 
+
 options:{
+
 
 responsive:true,
 
+
 plugins:{
+
 
 legend:{
 
+
 position:"bottom"
 
-}
 
 }
 
-}
 
 }
+
+
+}
+
+
+}
+
 
 );
 
@@ -801,17 +851,27 @@ position:"bottom"
 
 
 
+
+
+
+// BAR CHART INVESTASI
+
+
+
 let investasi=[
+
 
 ...data.cashflow.investasi
 
+
 ]
 
+
 .sort(
-
-(a,b)=>b.harga-a.harga
-
+(a,b)=>
+b.harga-a.harga
 )
+
 
 .slice(0,8);
 
@@ -820,15 +880,24 @@ let investasi=[
 
 
 
+
 barChart=new Chart(
 
-document.getElementById("chartBar"),
+
+document.getElementById(
+"chartBar"
+),
+
 
 {
 
+
 type:"bar",
 
+
+
 data:{
+
 
 labels:
 
@@ -837,7 +906,12 @@ x=>x.nama
 ),
 
 
+
 datasets:[{
+
+
+label:"Rupiah",
+
 
 data:
 
@@ -845,34 +919,53 @@ investasi.map(
 x=>x.harga
 )
 
+
 }]
+
 
 },
 
+
+
+
 options:{
+
 
 indexAxis:"y",
 
+
 responsive:true,
+
 
 plugins:{
 
+
 legend:{
+
 
 display:false
 
-}
 
 }
 
-}
 
 }
+
+
+}
+
+
+}
+
+
 
 );
 
 
+
 }
+
+
 
 
 
@@ -883,18 +976,27 @@ display:false
 async function saveImage(){
 
 
-const area=document.getElementById("dashboard");
+
+const area =
+document.getElementById(
+"dashboard"
+);
 
 
-const canvas=await html2canvas(
+
+const canvas =
+await html2canvas(
 
 area,
 
 {
 
+
 scale:2,
 
+
 backgroundColor:"#ffffff"
+
 
 }
 
@@ -902,15 +1004,25 @@ backgroundColor:"#ffffff"
 
 
 
-const link=document.createElement("a");
 
 
-link.download=
+const link =
+document.createElement(
+"a"
+);
+
+
+
+link.download =
 "Dashboard_Kopi_Melek_24_Jam.png";
 
 
-link.href=
-canvas.toDataURL("image/png");
+
+link.href =
+canvas.toDataURL(
+"image/png"
+);
+
 
 
 link.click();
@@ -921,6 +1033,7 @@ link.click();
 
 
 </script>
+
 
 
 </body>
