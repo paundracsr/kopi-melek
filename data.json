@@ -5,9 +5,9 @@
       "business": "Kopi Melek 24 Jam",
 
       "summary": {
-        "totalStok": 2275760,
+        "totalStok": 2240760,
         "totalInvestasi": 19546184,
-        "totalPengeluaran": 21821944,
+        "totalPengeluaran": 21786944,
         "totalProduk": 151,
         "hppPerCup": 3700,
 
@@ -18,242 +18,195 @@
         }
       },
 
-
       "cashflow": {
 
         "stokFNB": [
-
           {
             "nama": "Fresco Capucinno",
             "qty": 9,
             "harga": 11090
           },
-
           {
             "nama": "Kapal Fresco",
             "qty": 8,
             "harga": 7000
           },
-
           {
             "nama": "Teh Jus Madu",
             "qty": 10,
             "harga": 6380
           },
-
           {
             "nama": "Teh Jus Lemon",
             "qty": 10,
             "harga": 6380
           },
-
           {
             "nama": "Pop Ice Kacang Hijau",
             "qty": 5,
             "harga": 5750
           },
-
           {
             "nama": "Pop Ice Capuccino",
             "qty": 5,
             "harga": 5750
           },
-
           {
             "nama": "Pop Ice Permen Karet",
             "qty": 5,
             "harga": 5750
           },
-
           {
             "nama": "Pikopi Mix",
             "qty": 9,
             "harga": 8600
           },
-
           {
             "nama": "Kopi Avocado",
             "qty": 8,
             "harga": 17900
           },
-
           {
             "nama": "Teh Poci",
             "qty": 25,
             "harga": 6900
           },
-
           {
             "nama": "Susu Jahe SDM",
             "qty": 20,
             "harga": 41600
           },
-
           {
             "nama": "Luwak Kopi + Gula",
             "qty": 8,
             "harga": 9500
           },
-
           {
             "nama": "Good Day Latte",
             "qty": 10,
             "harga": 14900
           },
-
           {
             "nama": "Kopi Susu ABC",
             "qty": 10,
             "harga": 20800
           },
-
           {
             "nama": "Top Cappuccino",
             "qty": 9,
             "harga": 12900
           },
-
           {
             "nama": "Gula Pasir 2 Kg",
             "qty": 1,
             "harga": 35000
           },
-
           {
             "nama": "Kopi Bubuk Kapal Api 350gr",
             "qty": 1,
             "harga": 37900
           },
-
           {
             "nama": "Galon Isi Ulang",
             "qty": 2,
             "harga": 12000
           }
-
         ],
 
-
         "investasi": [
-
           {
             "nama": "Sewa Tempat 12 Bulan",
             "harga": 10000000
           },
-
           {
             "nama": "Banner",
             "harga": 210000
           },
-
           {
             "nama": "Bantal Alas 8 pcs",
             "harga": 211799
           },
-
           {
             "nama": "Pembersih Kulkas",
             "harga": 22382
           },
-
           {
             "nama": "Meja Lipat Kecil 4 pcs",
             "harga": 206040
           },
-
           {
             "nama": "Meja Besar",
             "harga": 123457
           },
-
           {
             "nama": "Karpet Toilet",
             "harga": 106818
           },
-
           {
             "nama": "Wallpaper Lantai",
             "harga": 328953
           },
-
           {
             "nama": "Lem Wallpaper",
             "harga": 114000
           },
-
           {
             "nama": "Tukang Bersih-bersih",
             "harga": 646000
           },
-
           {
             "nama": "Kipas Angin",
             "harga": 260000
           },
-
           {
             "nama": "Lampu 3 pcs",
             "harga": 270000
           },
-
           {
             "nama": "Rak Kamar Mandi",
             "harga": 23735
           },
-
           {
             "nama": "Pewangi Ruangan",
             "harga": 35000
           },
-
           {
             "nama": "Kulkas",
             "harga": 3488000
           },
-
           {
             "nama": "TV 32 Inch",
             "harga": 3500000
           }
-
         ]
-
       },
 
-
       "hargaJual": [
-
         {
           "produk": "Kopi Sachet",
           "hpp": 3700,
           "hargaJual": 8000,
           "profit": 4300
         },
-
         {
           "produk": "Pop Ice",
           "hpp": 3700,
           "hargaJual": 10000,
           "profit": 6300
         },
-
         {
           "produk": "Kopi Susu Premium",
           "hpp": 3700,
           "hargaJual": 12000,
           "profit": 8300
         },
-
         {
           "produk": "Signature Coffee",
           "hpp": 3700,
           "hargaJual": 15000,
           "profit": 11300
         }
-
       ]
-
     }
-
   ]
 }
