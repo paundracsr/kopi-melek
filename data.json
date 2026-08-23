@@ -3,51 +3,25 @@
     {
       "month": "Investasi Awal",
       "business": "Kopi Melek 24 Jam",
-
       "summary": {
-        "totalStok": 2240760,
-        "totalInvestasi": 19546184,
-        "totalPengeluaran": 21786944,
-        "totalProduk": 151,
+        "totalStok": 3247070,
+        "totalInvestasi": 24911184,
+        "totalPengeluaranOperasional": 1460000,
+        "totalPengeluaran": 30054673,
+        "totalItemStok": 122,
         "hppPerCup": 3700,
-
         "hargaJual": {
           "minimum": 8000,
           "normal": 10000,
           "premium": 15000
-        }
+        },
+        "totalItemTeridentifikasi": 29618254,
+        "penyesuaianRekonsiliasi": 436419
       },
-
       "cashflow": {
-
         "stokFNB": [
           {
-            "nama": "Fresco Capucinno",
-            "qty": 9,
-            "harga": 11090
-          },
-          {
-            "nama": "Kapal Fresco",
-            "qty": 8,
-            "harga": 7000
-          },
-          {
-            "nama": "Teh Jus Madu",
-            "qty": 10,
-            "harga": 6380
-          },
-          {
-            "nama": "Teh Jus Lemon",
-            "qty": 10,
-            "harga": 6380
-          },
-          {
-            "nama": "Pop Ice Kacang Hijau",
-            "qty": 5,
-            "harga": 5750
-          },
-          {
-            "nama": "Pop Ice Capuccino",
+            "nama": "Pop Ice Cappuccino",
             "qty": 5,
             "harga": 5750
           },
@@ -57,39 +31,54 @@
             "harga": 5750
           },
           {
-            "nama": "Pikopi Mix",
+            "nama": "Pop Ice Kacang Hijau",
+            "qty": 5,
+            "harga": 5750
+          },
+          {
+            "nama": "Teh Jus Lemon",
+            "qty": 10,
+            "harga": 6380
+          },
+          {
+            "nama": "Teh Jus Melon",
+            "qty": 10,
+            "harga": 6380
+          },
+          {
+            "nama": "Nutrisari",
+            "qty": 10,
+            "harga": 6000
+          },
+          {
+            "nama": "Fresco Kopi Gula",
+            "qty": 8,
+            "harga": 7000
+          },
+          {
+            "nama": "Pikopi",
             "qty": 9,
             "harga": 8600
           },
           {
-            "nama": "Kopi Avocado",
-            "qty": 8,
-            "harga": 17900
-          },
-          {
-            "nama": "Teh Poci",
-            "qty": 25,
-            "harga": 6900
-          },
-          {
-            "nama": "Susu Jahe SDM",
-            "qty": 20,
-            "harga": 41600
-          },
-          {
-            "nama": "Luwak Kopi + Gula",
+            "nama": "Luwak White Coffee",
             "qty": 8,
             "harga": 9500
           },
           {
-            "nama": "Good Day Latte",
+            "nama": "Luwak White Kopi",
             "qty": 10,
-            "harga": 14900
+            "harga": 16000
           },
           {
-            "nama": "Kopi Susu ABC",
+            "nama": "ABC Kopi Susu",
             "qty": 10,
             "harga": 20800
+          },
+          {
+            "nama": "Fresco Cappuccino",
+            "qty": 9,
+            "harga": 11090
           },
           {
             "nama": "Top Cappuccino",
@@ -97,9 +86,34 @@
             "harga": 12900
           },
           {
-            "nama": "Gula Pasir 2 Kg",
+            "nama": "Top Avocado",
+            "qty": 8,
+            "harga": 17900
+          },
+          {
+            "nama": "Good Day Freeze",
+            "qty": 20,
+            "harga": 57000
+          },
+          {
+            "nama": "Good Day Latte",
+            "qty": 10,
+            "harga": 14900
+          },
+          {
+            "nama": "Susu Kental Manis",
+            "qty": 20,
+            "harga": 41600
+          },
+          {
+            "nama": "Teh Poci",
+            "qty": 25,
+            "harga": 6900
+          },
+          {
+            "nama": "Kopi Bubuk 500gr",
             "qty": 1,
-            "harga": 35000
+            "harga": 18000
           },
           {
             "nama": "Kopi Bubuk Kapal Api 350gr",
@@ -107,15 +121,529 @@
             "harga": 37900
           },
           {
-            "nama": "Galon Isi Ulang",
+            "nama": "Tepung Gabah",
+            "qty": 3,
+            "harga": 30000
+          },
+          {
+            "nama": "Isi Ulang Galon",
+            "qty": 17,
+            "harga": 85000
+          },
+          {
+            "nama": "Gula Pasir 4 Kg",
+            "qty": 1,
+            "harga": 70000
+          },
+          {
+            "nama": "Indomie",
+            "qty": 20,
+            "harga": 60000
+          },
+          {
+            "nama": "Indomie",
+            "qty": 5,
+            "harga": 17500
+          },
+          {
+            "nama": "Indomie Sedap",
+            "qty": 5,
+            "harga": 14900
+          },
+          {
+            "nama": "Telur 1 Kg",
+            "qty": 16,
+            "harga": 22000
+          },
+          {
+            "nama": "Telur 1/2 Kg",
+            "qty": 8,
+            "harga": 11500
+          },
+          {
+            "nama": "Krecek",
+            "qty": 24,
+            "harga": 8000
+          },
+          {
+            "nama": "Krecek Kecil",
+            "qty": 24,
+            "harga": 2500
+          },
+          {
+            "nama": "Plastik 1/2 Kg",
+            "qty": 1,
+            "harga": 2200
+          },
+          {
+            "nama": "Tumpeng Nasi",
+            "qty": 1,
+            "harga": 150000
+          },
+          {
+            "nama": "Conylur Kopi",
+            "qty": 10,
+            "harga": 50000
+          },
+          {
+            "nama": "1 Lusin Container Es",
+            "qty": 12,
+            "harga": 135000
+          },
+          {
+            "nama": "Toples Segitiga Kecil",
+            "qty": 1,
+            "harga": 5000
+          },
+          {
+            "nama": "Gelas Hotel",
             "qty": 2,
+            "harga": 10000
+          },
+          {
+            "nama": "Sedol/Sendal",
+            "qty": 0.5,
+            "harga": 8000
+          },
+          {
+            "nama": "Piring Plastik",
+            "qty": 1,
+            "harga": 22000
+          },
+          {
+            "nama": "Kertas Minyak Bermerk",
+            "qty": 1,
+            "harga": 15000
+          },
+          {
+            "nama": "Telur Alternatif",
+            "qty": 1,
+            "harga": 24500
+          },
+          {
+            "nama": "Kain/Kertas?",
+            "qty": 1,
+            "harga": 9700
+          },
+          {
+            "nama": "Kapur? Bumbu Penggorengan",
+            "qty": 2,
+            "harga": 39600
+          },
+          {
+            "nama": "Kentang Fiesta 500gr",
+            "qty": 500,
+            "satuan": "gr",
+            "harga": 20000
+          },
+          {
+            "nama": "Nugget",
+            "qty": 1,
+            "harga": 30000
+          },
+          {
+            "nama": "Sapu Pel",
+            "qty": 1,
+            "harga": 64000
+          },
+          {
+            "nama": "Vixal",
+            "qty": 1,
+            "harga": 10600
+          },
+          {
+            "nama": "Susu Diamond UHT",
+            "qty": 1,
+            "harga": 29200
+          },
+          {
+            "nama": "Kunyit + Bawang?",
+            "qty": 1,
+            "harga": 9900
+          },
+          {
+            "nama": "Lada Putih 50gr",
+            "qty": 1,
+            "harga": 14300
+          },
+          {
+            "nama": "Bawang Putih Bubuk",
+            "qty": 1,
+            "harga": 10570
+          },
+          {
+            "nama": "Susu UHT",
+            "qty": 1,
+            "harga": 33000
+          },
+          {
+            "nama": "Tomat Saus Delmonte",
+            "qty": 1,
+            "harga": 12500
+          },
+          {
+            "nama": "Beras Tepung Beras",
+            "qty": 0.5,
+            "harga": 9000
+          },
+          {
+            "nama": "Tepung Tapioka",
+            "qty": 1,
+            "harga": 3500
+          },
+          {
+            "nama": "Saus Cabe Delmonte",
+            "qty": 1,
+            "harga": 15000
+          },
+          {
+            "nama": "UHT 1 Lt",
+            "qty": 1,
+            "harga": 20000
+          },
+          {
+            "nama": "Sumpah 10 Pcs",
+            "qty": 10,
+            "harga": 4500
+          },
+          {
+            "nama": "Cabe Merah",
+            "qty": 1,
             "harga": 12000
+          },
+          {
+            "nama": "Beras 10 Kg",
+            "qty": 1,
+            "harga": 150000
+          },
+          {
+            "nama": "Royco",
+            "qty": 1,
+            "harga": 12900
+          },
+          {
+            "nama": "Masako",
+            "qty": 1,
+            "harga": 7500
+          },
+          {
+            "nama": "Kangkung",
+            "qty": 1,
+            "harga": 4500
+          },
+          {
+            "nama": "Minyak Wijen",
+            "qty": 1,
+            "harga": 43000
+          },
+          {
+            "nama": "Bawang Goreng",
+            "qty": 8,
+            "harga": 30000
+          },
+          {
+            "nama": "Kecap Asin",
+            "qty": 1,
+            "harga": 13000
+          },
+          {
+            "nama": "Kulit Pangsit",
+            "qty": 4,
+            "harga": 18000
+          },
+          {
+            "nama": "Kentol",
+            "qty": 2,
+            "harga": 34000
+          },
+          {
+            "nama": "Strawberry/Peng?",
+            "qty": 2,
+            "harga": 29000
+          },
+          {
+            "nama": "Cumi 1/4",
+            "qty": 1,
+            "harga": 20000
+          },
+          {
+            "nama": "Kerang 1/5",
+            "qty": 1,
+            "harga": 10000
+          },
+          {
+            "nama": "Bery Jamur",
+            "qty": 4,
+            "harga": 26100
+          },
+          {
+            "nama": "Pakcoy",
+            "qty": 4,
+            "harga": 40000
+          },
+          {
+            "nama": "Mie Gepeng 4Kg",
+            "qty": 4,
+            "harga": 60000
+          },
+          {
+            "nama": "Indomie",
+            "qty": 1,
+            "harga": 2000
+          },
+          {
+            "nama": "Saori",
+            "qty": 1,
+            "harga": 2000
+          },
+          {
+            "nama": "Jamur Kaleng",
+            "qty": 1,
+            "harga": 21000
+          },
+          {
+            "nama": "Bumbu Bakso",
+            "qty": 5,
+            "harga": 10000
+          },
+          {
+            "nama": "Kangkung",
+            "qty": 6,
+            "harga": 9000
+          },
+          {
+            "nama": "Ketela Singkong",
+            "qty": 5,
+            "harga": 5000
+          },
+          {
+            "nama": "Bawang Bombay",
+            "qty": 5,
+            "harga": 5000
+          },
+          {
+            "nama": "Wortel Besar",
+            "qty": 1,
+            "harga": 40000
+          },
+          {
+            "nama": "Ember Mandi",
+            "qty": 1,
+            "harga": 30000
+          },
+          {
+            "nama": "Plastik Mie 1 Kg",
+            "qty": 1,
+            "harga": 7000
+          },
+          {
+            "nama": "Standing Pouch Plastik",
+            "qty": 1,
+            "harga": 14000
+          },
+          {
+            "nama": "Standing Pouch 12x20",
+            "qty": 1,
+            "harga": 23000
+          },
+          {
+            "nama": "Tempe",
+            "qty": 6,
+            "harga": 30000
+          },
+          {
+            "nama": "Tahu",
+            "qty": 3,
+            "harga": 24000
+          },
+          {
+            "nama": "Tepung Saj? Krispi",
+            "qty": 1,
+            "harga": 15000
+          },
+          {
+            "nama": "Tepung Krispi",
+            "qty": 1,
+            "harga": 3000
+          },
+          {
+            "nama": "Tahu Kuning",
+            "qty": 12,
+            "harga": 24000,
+            "hargaJual": 2000
+          },
+          {
+            "nama": "Club Gelas",
+            "qty": 48,
+            "satuan": "pcs",
+            "harga": 41000,
+            "hargaJual": 1000
+          },
+          {
+            "nama": "Pet?",
+            "qty": 119,
+            "satuan": "pcs",
+            "harga": 10000,
+            "hargaJual": 2000
+          },
+          {
+            "nama": "Ikan Tongkol 1 Kg",
+            "qty": 3,
+            "harga": 45000
+          },
+          {
+            "nama": "Ikan Tongkol Kecil",
+            "qty": 4,
+            "harga": 20000
+          },
+          {
+            "nama": "Ice Kristal",
+            "qty": 8,
+            "harga": 56000
+          },
+          {
+            "nama": "Mie Cilemba 12",
+            "qty": 12,
+            "harga": 12000
+          },
+          {
+            "nama": "Kentang Goreng",
+            "qty": 3,
+            "harga": 26000
+          },
+          {
+            "nama": "Timun",
+            "qty": 10,
+            "harga": 50000
+          },
+          {
+            "nama": "Gas Elpiji",
+            "qty": 6,
+            "harga": 126000
+          },
+          {
+            "nama": "Minyak Fortune Goreng",
+            "qty": 1,
+            "harga": 19000
+          },
+          {
+            "nama": "Minyak Manjaro",
+            "qty": 2,
+            "harga": 36000
+          },
+          {
+            "nama": "Kerupuk Sampah",
+            "qty": 50,
+            "satuan": "pcs",
+            "harga": 35000
+          },
+          {
+            "nama": "Minyak Bawang",
+            "qty": 4,
+            "harga": 38000
+          },
+          {
+            "nama": "Micin Sasa",
+            "qty": 3,
+            "harga": 15000
+          },
+          {
+            "nama": "Udang Petak",
+            "qty": 2,
+            "harga": 10000
+          },
+          {
+            "nama": "Udang 1 Kg",
+            "qty": 1,
+            "harga": 20000
+          },
+          {
+            "nama": "Teh Villa",
+            "qty": 1,
+            "harga": 4500
+          },
+          {
+            "nama": "Teh Hanak",
+            "qty": 1,
+            "harga": 4500
+          },
+          {
+            "nama": "Tisu & Tempatnya",
+            "qty": 4,
+            "satuan": "pcs",
+            "harga": 60000
+          },
+          {
+            "nama": "Sabun Cuci Tangan",
+            "qty": 1,
+            "satuan": "pcs",
+            "harga": 15000
+          },
+          {
+            "nama": "Sabun Cuci",
+            "qty": 1,
+            "harga": 25000
+          },
+          {
+            "nama": "Sunlight",
+            "qty": 3,
+            "harga": 22000
+          },
+          {
+            "nama": "Talen? Kristal",
+            "qty": 2,
+            "harga": 120000
+          },
+          {
+            "nama": "Sedotan",
+            "qty": 1,
+            "harga": 18000
+          },
+          {
+            "nama": "Plastik Es",
+            "qty": 1,
+            "harga": 8000
+          },
+          {
+            "nama": "Plastik Peyek",
+            "qty": 1,
+            "harga": 43500
+          },
+          {
+            "nama": "Kecap",
+            "qty": 2,
+            "harga": 35000
+          },
+          {
+            "nama": "Cabe",
+            "qty": 1,
+            "satuan": "kg",
+            "harga": 85000
+          },
+          {
+            "nama": "Bumbu Urap",
+            "qty": 2,
+            "harga": 22000
+          },
+          {
+            "nama": "Sasa Santan",
+            "qty": 2,
+            "harga": 10000
+          },
+          {
+            "nama": "Santan",
+            "qty": 1,
+            "harga": 5000
+          },
+          {
+            "nama": "Ikan Asin",
+            "qty": 1,
+            "harga": 42000
           }
         ],
-
         "investasi": [
           {
-            "nama": "Sewa Tempat 12 Bulan",
+            "nama": "Sewa/Ruko 12 Bulan",
             "harga": 10000000
           },
           {
@@ -177,10 +705,41 @@
           {
             "nama": "TV 32 Inch",
             "harga": 3500000
+          },
+          {
+            "nama": "2 Meja Lesehan",
+            "harga": 300000
+          },
+          {
+            "nama": "1 Set Bar Kopi",
+            "harga": 3000000
+          },
+          {
+            "nama": "Sound System",
+            "harga": 1700000
+          },
+          {
+            "nama": "Figura Sertifikat",
+            "harga": 65000
+          },
+          {
+            "nama": "Poster 14 pcs",
+            "harga": 300000
           }
-        ]
+        ],
+        "pengeluaranOperasional": [
+          {
+            "nama": "Gaji Karyawan",
+            "qty": 3,
+            "harga": 1460000
+          }
+        ],
+        "rekonsiliasi": {
+          "nama": "Penyesuaian total berdasarkan catatan akhir (gambar 5)",
+          "harga": 436419,
+          "keterangan": "Selisih antara subtotal item yang teridentifikasi pada gambar 1-4 + catatan teks dan total akhir Rp30.054.673."
+        }
       },
-
       "hargaJual": [
         {
           "produk": "Kopi Sachet",
@@ -206,7 +765,14 @@
           "hargaJual": 15000,
           "profit": 11300
         }
+      ],
+      "catatan": [
+        "Total akhir mengikuti angka pada gambar ke-5: Rp30.054.673.",
+        "Data produk, stok, investasi, operasional, dan tambahan chat disusun dari gambar 1-4 dan catatan teks.",
+        "Tambahan chat yang dimasukkan: sedotan Rp18.000, plastik es Rp8.000, plastik peyek Rp43.500, figura sertifikat Rp65.000, poster 14 pcs Rp300.000, kecap Rp35.000, cabe Rp85.000, bumbu urap Rp22.000, Sasa santan Rp10.000, santan Rp5.000, ikan asin Rp42.000.",
+        "Selisih Rp436.419 tidak dipecah menjadi produk baru karena tidak ada rincian sumber yang cukup jelas pada gambar; disimpan sebagai penyesuaian rekonsiliasi agar total tidak dibuat-buat.",
+        "Kolom TOTAL pada catatan dibaca sebagai nilai pengeluaran per baris."
       ]
     }
   ]
-}
+}% 
