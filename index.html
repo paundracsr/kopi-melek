@@ -1,26 +1,51 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
 
 <title>☕ Dashboard Keuangan Kopi Melek 24 Jam</title>
 
+<meta name="description"
+      content="Dashboard cash flow dan laporan keuangan Kopi Melek 24 Jam.">
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
+
 <style>
+
+/* =========================
+   RESET
+========================= */
+
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:'Segoe UI',sans-serif;
+    font-family:'Segoe UI',Arial,sans-serif;
 }
+
+
+/* =========================
+   BODY
+========================= */
 
 body{
     background:#eef3f8;
     padding:20px;
+    color:#1e293b;
 }
+
+
+/* =========================
+   WRAPPER
+========================= */
 
 .dashboard-wrapper{
     max-width:1400px;
@@ -31,566 +56,1680 @@ body{
     box-shadow:0 10px 35px rgba(0,0,0,.08);
 }
 
+
+/* =========================
+   HEADER
+========================= */
+
 .header{
     display:flex;
     justify-content:space-between;
     align-items:center;
     flex-wrap:wrap;
+
     border-bottom:2px solid #edf2f7;
+
     padding-bottom:20px;
     margin-bottom:25px;
+
+    gap:20px;
 }
+
 
 .header h1{
     font-size:30px;
     color:#1e293b;
 }
 
+
 .badge{
     margin-top:8px;
+
     display:inline-block;
+
     padding:8px 15px;
+
     background:#1e293b;
     color:white;
+
     border-radius:50px;
+
     font-size:13px;
 }
+
+
+/* =========================
+   BUTTON
+========================= */
 
 button{
     border:none;
     cursor:pointer;
+
     padding:10px 18px;
+
     border-radius:30px;
+
     font-weight:bold;
+
+    transition:.2s;
 }
 
-.btn{background:#f1f5f9;}
-.btn-primary{background:#1e293b;color:white;}
 
-.summary{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:18px;
-    margin-bottom:25px;
+button:hover{
+    transform:translateY(-1px);
+    opacity:.9;
 }
 
-.summary-card{
-    background:#f8fafc;
-    padding:20px;
-    border-radius:20px;
+
+.btn{
+    background:#f1f5f9;
+    color:#1e293b;
 }
 
-.summary-card span{
-    color:#64748b;
-    font-size:13px;
-    font-weight:bold;
+
+.btn-primary{
+    background:#1e293b;
+    color:white;
 }
 
-.summary-card h2{
-    margin-top:10px;
-    font-size:25px;
-}
 
-.red{color:#dc2626;}
-.green{color:#15803d;}
-
-.chart-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:20px;
-    margin-bottom:25px;
-}
-
-.card{
-    background:white;
-    border:1px solid #e5e7eb;
-    border-radius:20px;
-    padding:20px;
-}
-
-.card h3{
-    margin-bottom:15px;
-    color:#334155;
-}
-
-.table-scroll{
-    overflow-x:auto;
-}
-
-table{
-    width:100%;
-    border-collapse:collapse;
-}
-
-th{
-    background:#edf3fa;
-    padding:12px;
-}
-
-td{
-    padding:10px;
-    text-align:center;
-    border-bottom:1px solid #ddd;
-}
-
-.total-row{
-    font-weight:bold;
-    background:#f8fafc;
-}
+/* =========================
+   STATUS
+========================= */
 
 .status{
-    padding:10px 14px;
-    border-radius:10px;
+    padding:12px 16px;
+
+    border-radius:12px;
+
     background:#f1f5f9;
+
     margin-bottom:20px;
+
     font-size:14px;
 }
 
-@media(max-width:800px){
-    .chart-grid{grid-template-columns:1fr;}
-    .dashboard-wrapper{padding:15px;}
-    .header h1{font-size:22px;}
+
+/* =========================
+   SUMMARY
+========================= */
+
+.summary{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(auto-fit,minmax(210px,1fr));
+
+    gap:18px;
+
+    margin-bottom:25px;
 }
+
+
+.summary-card{
+
+    background:#f8fafc;
+
+    padding:20px;
+
+    border-radius:20px;
+
+    border:1px solid #edf2f7;
+}
+
+
+.summary-card span{
+
+    color:#64748b;
+
+    font-size:13px;
+
+    font-weight:bold;
+}
+
+
+.summary-card h2{
+
+    margin-top:10px;
+
+    font-size:25px;
+
+    word-break:break-word;
+}
+
+
+.red{
+    color:#dc2626;
+}
+
+
+.green{
+    color:#15803d;
+}
+
+
+/* =========================
+   CHART
+========================= */
+
+.chart-grid{
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:20px;
+
+    margin-bottom:25px;
+}
+
+
+.card{
+
+    background:white;
+
+    border:1px solid #e5e7eb;
+
+    border-radius:20px;
+
+    padding:20px;
+}
+
+
+.card h3{
+
+    margin-bottom:15px;
+
+    color:#334155;
+}
+
+
+.chart-container{
+
+    position:relative;
+
+    width:100%;
+
+    min-height:350px;
+}
+
+
+/* =========================
+   TABLE
+========================= */
+
+.table-scroll{
+
+    overflow-x:auto;
+}
+
+
+table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    min-width:700px;
+}
+
+
+th{
+
+    background:#edf3fa;
+
+    padding:12px;
+
+    text-align:center;
+
+    white-space:nowrap;
+}
+
+
+td{
+
+    padding:10px;
+
+    text-align:center;
+
+    border-bottom:1px solid #ddd;
+}
+
+
+td:nth-child(3){
+
+    text-align:left;
+
+}
+
+
+.total-row{
+
+    font-weight:bold;
+
+    background:#f8fafc;
+}
+
+
+/* =========================
+   ERROR
+========================= */
+
+.error-box{
+
+    background:#fef2f2;
+
+    color:#991b1b;
+
+    border:1px solid #fecaca;
+
+    padding:15px;
+
+    border-radius:12px;
+
+    line-height:1.6;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+.footer{
+
+    margin-top:20px;
+
+    text-align:center;
+
+    color:#64748b;
+
+    font-size:13px;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:800px){
+
+    body{
+        padding:10px;
+    }
+
+
+    .dashboard-wrapper{
+        padding:15px;
+        border-radius:18px;
+    }
+
+
+    .chart-grid{
+        grid-template-columns:1fr;
+    }
+
+
+    .header h1{
+        font-size:22px;
+    }
+
+
+    .header{
+        align-items:flex-start;
+    }
+
+
+    .summary-card h2{
+        font-size:22px;
+    }
+
+}
+
+
+@media print{
+
+    body{
+        background:white;
+        padding:0;
+    }
+
+
+    .dashboard-wrapper{
+        box-shadow:none;
+        max-width:none;
+        border-radius:0;
+    }
+
+
+    button{
+        display:none;
+    }
+
+
+    .status{
+        display:none;
+    }
+
+}
+
 </style>
+
 </head>
+
 
 <body>
 
-<div class="dashboard-wrapper" id="dashboard">
+
+<div
+    class="dashboard-wrapper"
+    id="dashboard"
+>
+
+
+    <!-- =========================
+         HEADER
+    ========================== -->
 
     <div class="header">
-        <div>
-            <h1>☕ Kopi Melek 24 Jam</h1>
-            <div class="badge">Cash Flow & Laporan Keuangan</div>
-        </div>
 
         <div>
-            <button class="btn" onclick="saveImage()">🖼 Gambar</button>
-            <button class="btn-primary" onclick="window.print()">📄 PDF</button>
+
+            <h1>
+                ☕ Kopi Melek 24 Jam
+            </h1>
+
+            <div class="badge">
+                Cash Flow & Laporan Keuangan
+            </div>
+
         </div>
+
+
+        <div>
+
+            <button
+                class="btn"
+                onclick="saveImage()"
+            >
+                🖼 Gambar
+            </button>
+
+
+            <button
+                class="btn-primary"
+                onclick="window.print()"
+            >
+                📄 PDF
+            </button>
+
+        </div>
+
     </div>
 
-    <div id="loadStatus" class="status">
-        ⏳ Membaca data.json...
+
+
+    <!-- =========================
+         STATUS DATA
+    ========================== -->
+
+    <div
+        id="loadStatus"
+        class="status"
+    >
+        ⏳ Mengambil data.json...
     </div>
 
-    <!-- SUMMARY -->
+
+
+    <!-- =========================
+         SUMMARY
+    ========================== -->
+
     <div class="summary">
 
-        <div class="summary-card">
-            <span>Total Pengeluaran</span>
-            <h2 id="totalPengeluaran" class="red">Rp0</h2>
-        </div>
 
         <div class="summary-card">
-            <span>Total Investasi</span>
-            <h2 id="totalInvestasi">Rp0</h2>
+
+            <span>
+                Total Pengeluaran
+            </span>
+
+            <h2
+                id="totalPengeluaran"
+                class="red"
+            >
+                Rp 0
+            </h2>
+
         </div>
 
-        <div class="summary-card">
-            <span>Total Stok F&B</span>
-            <h2 id="totalStok">Rp0</h2>
-        </div>
+
 
         <div class="summary-card">
-            <span>Jumlah Item</span>
-            <h2 id="jumlahProduk">0 Item</h2>
+
+            <span>
+                Total Investasi
+            </span>
+
+            <h2 id="totalInvestasi">
+                Rp 0
+            </h2>
+
         </div>
 
+
+
         <div class="summary-card">
-            <span>Harga Customer</span>
-            <h2 class="green">Rp8.000 - Rp15.000</h2>
+
+            <span>
+                Total Stok F&B
+            </span>
+
+            <h2 id="totalStok">
+                Rp 0
+            </h2>
+
         </div>
+
+
+
+        <div class="summary-card">
+
+            <span>
+                Jumlah Item
+            </span>
+
+            <h2 id="jumlahProduk">
+                0 Item
+            </h2>
+
+        </div>
+
+
+
+        <div class="summary-card">
+
+            <span>
+                Harga Customer
+            </span>
+
+            <h2 class="green">
+                Rp8.000 - Rp15.000
+            </h2>
+
+        </div>
+
 
     </div>
 
-    <!-- CHART -->
+
+
+    <!-- =========================
+         CHART
+    ========================== -->
+
     <div class="chart-grid">
 
-        <div class="card">
-            <h3>📊 Komposisi Cash Flow</h3>
-            <canvas id="chartPie"></canvas>
-        </div>
+
+        <!-- PIE -->
 
         <div class="card">
-            <h3>📈 Investasi Terbesar</h3>
-            <canvas id="chartBar"></canvas>
+
+            <h3>
+                📊 Komposisi Cash Flow
+            </h3>
+
+
+            <div class="chart-container">
+
+                <canvas
+                    id="chartPie"
+                ></canvas>
+
+            </div>
+
         </div>
+
+
+
+        <!-- BAR -->
+
+        <div class="card">
+
+            <h3>
+                📈 Investasi Terbesar
+            </h3>
+
+
+            <div class="chart-container">
+
+                <canvas
+                    id="chartBar"
+                ></canvas>
+
+            </div>
+
+        </div>
+
 
     </div>
 
-    <!-- TABLE -->
+
+
+    <!-- =========================
+         TABLE
+    ========================== -->
+
     <div class="card">
 
-        <h3>📋 Detail Pengeluaran Kopi Melek 24 Jam</h3>
+        <h3>
+            📋 Detail Pengeluaran Kopi Melek 24 Jam
+        </h3>
+
 
         <div class="table-scroll">
 
+
             <table>
+
+
                 <thead>
+
                     <tr>
-                        <th>No</th>
-                        <th>Kategori</th>
-                        <th>Nama</th>
-                        <th>Qty</th>
-                        <th>Total</th>
+
+                        <th>
+                            No
+                        </th>
+
+                        <th>
+                            Kategori
+                        </th>
+
+                        <th>
+                            Nama
+                        </th>
+
+                        <th>
+                            Qty
+                        </th>
+
+                        <th>
+                            Total
+                        </th>
+
                     </tr>
+
                 </thead>
 
-                <tbody id="dataTable"></tbody>
+
+
+                <tbody
+                    id="dataTable"
+                >
+                </tbody>
+
+
 
                 <tfoot>
+
                     <tr class="total-row">
-                        <td colspan="4">TOTAL</td>
-                        <td id="totalTable">Rp0</td>
+
+                        <td colspan="4">
+                            TOTAL
+                        </td>
+
+                        <td
+                            id="totalTable"
+                        >
+                            Rp 0
+                        </td>
+
                     </tr>
+
                 </tfoot>
+
+
             </table>
 
+
         </div>
+
     </div>
+
+
+
+    <div class="footer">
+
+        Data laporan diambil secara otomatis dari
+        <b>data.json</b>.
+
+    </div>
+
 
 </div>
 
+
+
 <script>
+
+/* =====================================================
+   GLOBAL
+===================================================== */
+
 let laporanData = null;
+
 let pieChart = null;
+
 let barChart = null;
 
+
+/* =====================================================
+   FORMAT RUPIAH
+===================================================== */
+
 function rupiah(angka){
-    return "Rp " + Number(angka || 0).toLocaleString("id-ID");
+
+    return "Rp " +
+        Number(angka || 0)
+        .toLocaleString("id-ID");
+
 }
 
-/*
-========================================================
-LOAD DATA
-========================================================
-File yang dicari HARUS bernama:
 
-data.json
+/* =====================================================
+   ESCAPE HTML
+   Agar nama produk dari JSON aman ditampilkan
+===================================================== */
 
-dan harus berada di folder yang sama dengan file HTML.
+function escapeHTML(value){
 
-Contoh:
-/
-├── index.html
-└── data.json
-*/
+    return String(value ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+/* =====================================================
+   LOAD JSON
+=====================================================
+
+   PRIORITAS:
+
+   1. ./data.json
+
+   2. Raw GitHub
+
+   Repository:
+   paundracsr/kopi-melek
+
+===================================================== */
+
 async function loadData(){
 
-    const status = document.getElementById("loadStatus");
 
-    try{
-
-        const response = await fetch("./data.json", {
-            cache: "no-store"
-        });
-
-        if(!response.ok){
-            throw new Error(
-                "HTTP " + response.status +
-                " - data.json tidak ditemukan"
-            );
-        }
-
-        laporanData = await response.json();
-
-        if(
-            !laporanData.months ||
-            !Array.isArray(laporanData.months) ||
-            !laporanData.months.length
-        ){
-            throw new Error("Struktur data.json tidak valid.");
-        }
-
-        status.innerHTML = "✅ data.json berhasil dimuat.";
-
-        renderDashboard();
-
-    }catch(error){
-
-        console.error("Gagal membaca data.json:", error);
-
-        status.innerHTML =
-            "❌ Gagal membaca <b>data.json</b>. " +
-            "Pastikan index.html dan data.json berada dalam folder yang sama " +
-            "dan website dijalankan melalui server.";
-
-        alert(
-            "data.json tidak dapat dibaca.\n\n" +
-            "Pastikan file bernama data.json berada di folder yang sama dengan HTML."
+    const status =
+        document.getElementById(
+            "loadStatus"
         );
+
+
+    /*
+        URL pertama.
+
+        Jika website dijalankan melalui:
+
+        https://paundracsr.github.io/kopi-melek/
+
+        maka browser otomatis mencari:
+
+        https://paundracsr.github.io/kopi-melek/data.json
+    */
+
+    const urls = [
+
+        "./data.json",
+
+        "https://raw.githubusercontent.com/paundracsr/kopi-melek/main/data.json"
+
+    ];
+
+
+    let lastError = null;
+
+
+    for(
+        let i = 0;
+        i < urls.length;
+        i++
+    ){
+
+
+        try{
+
+
+            status.innerHTML =
+                "⏳ Membaca data.json...";
+
+
+            const response =
+                await fetch(
+                    urls[i],
+                    {
+                        method:"GET",
+
+                        cache:"no-store",
+
+                        headers:{
+                            "Accept":
+                            "application/json"
+                        }
+                    }
+                );
+
+
+            if(!response.ok){
+
+                throw new Error(
+                    "HTTP " +
+                    response.status
+                );
+
+            }
+
+
+            const data =
+                await response.json();
+
+
+            /*
+                Validasi struktur JSON
+            */
+
+            if(
+                !data ||
+                !Array.isArray(
+                    data.months
+                ) ||
+                data.months.length === 0
+            ){
+
+                throw new Error(
+                    "Struktur data.json tidak valid."
+                );
+
+            }
+
+
+            /*
+                Berhasil
+            */
+
+            laporanData = data;
+
+
+            status.innerHTML =
+                "✅ Data berhasil dimuat dari: " +
+                "<b>" +
+                escapeHTML(urls[i]) +
+                "</b>";
+
+
+            renderDashboard();
+
+
+            return;
+
+
+        }catch(error){
+
+            console.warn(
+                "Gagal mengambil:",
+                urls[i],
+                error
+            );
+
+
+            lastError = error;
+
+        }
+
     }
+
+
+    /*
+        Semua URL gagal
+    */
+
+    status.innerHTML = `
+
+        <div class="error-box">
+
+            <b>❌ data.json tidak dapat dibaca.</b>
+
+            <br><br>
+
+            Pastikan file berada di:
+
+            <br>
+
+            <b>
+            repository root /data.json
+            </b>
+
+            <br><br>
+
+            Struktur GitHub harus:
+
+            <br><br>
+
+            <b>
+            kopi-melek/
+            <br>
+            ├── index.html
+            <br>
+            └── data.json
+            </b>
+
+            <br><br>
+
+            Error terakhir:
+
+            <br>
+
+            ${escapeHTML(
+                lastError?.message ||
+                "Unknown error"
+            )}
+
+        </div>
+
+    `;
+
 }
+
+
+/* =====================================================
+   RENDER DASHBOARD
+===================================================== */
 
 function renderDashboard(){
 
-    const data = laporanData.months[0];
 
-    const summary = data.summary || {};
-    const cashflow = data.cashflow || {};
+    const data =
+        laporanData.months[0];
 
-    // =========================
-    // SUMMARY
-    // =========================
 
-    document.getElementById("totalPengeluaran").textContent =
-        rupiah(summary.totalPengeluaran);
+    const summary =
+        data.summary || {};
 
-    document.getElementById("totalInvestasi").textContent =
-        rupiah(summary.totalInvestasi);
 
-    document.getElementById("totalStok").textContent =
-        rupiah(summary.totalStok);
+    const cashflow =
+        data.cashflow || {};
+
+
+    /* =========================
+       SUMMARY
+    ========================= */
+
+
+    document.getElementById(
+        "totalPengeluaran"
+    ).textContent =
+        rupiah(
+            summary.totalPengeluaran
+        );
+
+
+    document.getElementById(
+        "totalInvestasi"
+    ).textContent =
+        rupiah(
+            summary.totalInvestasi
+        );
+
+
+    document.getElementById(
+        "totalStok"
+    ).textContent =
+        rupiah(
+            summary.totalStok
+        );
+
+
+    /*
+        Prioritas jumlah item:
+
+        totalItemTeridentifikasi
+        ↓
+        totalItemStok
+        ↓
+        totalProduk
+        ↓
+        hitung otomatis
+    */
 
     const jumlahItem =
-        summary.totalItemTeridentifikasi ??
-        summary.totalItemStok ??
-        summary.totalProduk ??
-        hitungJumlahItem(cashflow);
 
-    document.getElementById("jumlahProduk").textContent =
-        jumlahItem + " Item";
+        summary.totalItemTeridentifikasi
+        ??
+        summary.totalItemStok
+        ??
+        summary.totalProduk
+        ??
+        hitungJumlahItem(
+            cashflow
+        );
 
-    // =========================
-    // TABLE
-    // =========================
 
-    const tbody = document.getElementById("dataTable");
+    document.getElementById(
+        "jumlahProduk"
+    ).textContent =
+        jumlahItem +
+        " Item";
+
+
+    /* =========================
+       TABLE
+    ========================= */
+
+
+    const tbody =
+        document.getElementById(
+            "dataTable"
+        );
+
 
     tbody.innerHTML = "";
 
+
     let no = 1;
 
-    const stok = Array.isArray(cashflow.stokFNB)
-        ? cashflow.stokFNB
-        : [];
 
-    const investasi = Array.isArray(cashflow.investasi)
-        ? cashflow.investasi
-        : [];
+    const stok =
 
-    const operasional = Array.isArray(cashflow.pengeluaranOperasional)
-        ? cashflow.pengeluaranOperasional
-        : [];
+        Array.isArray(
+            cashflow.stokFNB
+        )
+        ?
+        cashflow.stokFNB
+        :
+        [];
 
-    const rekonsiliasi = Array.isArray(cashflow.rekonsiliasi)
-        ? cashflow.rekonsiliasi
-        : cashflow.rekonsiliasi
-            ? [cashflow.rekonsiliasi]
-            : [];
 
-    // TOTAL pada JSON adalah nilai belanja per baris.
-    // Karena itu TIDAK dikalikan qty × harga.
-    const tambahBaris = (item, kategori) => {
+    const investasi =
 
-        const total = Number(item.harga || 0);
+        Array.isArray(
+            cashflow.investasi
+        )
+        ?
+        cashflow.investasi
+        :
+        [];
+
+
+    const operasional =
+
+        Array.isArray(
+            cashflow.pengeluaranOperasional
+        )
+        ?
+        cashflow.pengeluaranOperasional
+        :
+        [];
+
+
+    /*
+        Rekonsiliasi bisa berupa:
+
+        object
+
+        atau
+
+        array
+    */
+
+    let rekonsiliasi = [];
+
+
+    if(
+        Array.isArray(
+            cashflow.rekonsiliasi
+        )
+    ){
+
+        rekonsiliasi =
+            cashflow.rekonsiliasi;
+
+    }
+
+    else if(
+        cashflow.rekonsiliasi
+    ){
+
+        rekonsiliasi = [
+            cashflow.rekonsiliasi
+        ];
+
+    }
+
+
+    /*
+        PENTING:
+
+        Kolom harga pada JSON adalah
+        TOTAL pengeluaran per baris.
+
+        Jadi:
+
+        SALAH:
+        harga × qty
+
+        BENAR:
+        harga
+
+        Contoh:
+
+        qty = 9
+        harga = 11090
+
+        Total = Rp11.090
+
+        bukan Rp99.810.
+    */
+
+
+    function tambahBaris(
+        item,
+        kategori
+    ){
+
+
+        const total =
+            Number(
+                item.harga || 0
+            );
+
 
         tbody.innerHTML += `
+
             <tr>
-                <td>${no++}</td>
-                <td>${kategori}</td>
-                <td>${item.nama || "-"}</td>
-                <td>${item.qty ?? "-"}</td>
-                <td>${rupiah(total)}</td>
+
+                <td>
+                    ${no++}
+                </td>
+
+                <td>
+                    ${escapeHTML(
+                        kategori
+                    )}
+                </td>
+
+                <td>
+                    ${escapeHTML(
+                        item.nama
+                    )}
+                </td>
+
+                <td>
+                    ${escapeHTML(
+                        item.qty ?? "-"
+                    )}
+                </td>
+
+                <td>
+                    ${rupiah(total)}
+                </td>
+
             </tr>
+
         `;
-    };
 
-    stok.forEach(item =>
-        tambahBaris(item, "Stok F&B")
+    }
+
+
+    /*
+        STOK
+    */
+
+    stok.forEach(
+        item =>
+            tambahBaris(
+                item,
+                "Stok F&B"
+            )
     );
 
-    investasi.forEach(item =>
-        tambahBaris(item, "Investasi")
+
+    /*
+        INVESTASI
+    */
+
+    investasi.forEach(
+        item =>
+            tambahBaris(
+                item,
+                "Investasi"
+            )
     );
 
-    operasional.forEach(item =>
-        tambahBaris(item, "Operasional")
+
+    /*
+        OPERASIONAL
+    */
+
+    operasional.forEach(
+        item =>
+            tambahBaris(
+                item,
+                "Operasional"
+            )
     );
 
-    // Rekonsiliasi hanya ditampilkan jika ada.
-    rekonsiliasi.forEach(item =>
-        tambahBaris(item, "Rekonsiliasi")
+
+    /*
+        REKONSILIASI
+    */
+
+    rekonsiliasi.forEach(
+        item =>
+            tambahBaris(
+                item,
+                "Rekonsiliasi"
+            )
     );
 
-    // TOTAL tabel mengikuti angka resmi dari summary.
-    document.getElementById("totalTable").textContent =
-        rupiah(summary.totalPengeluaran);
+
+    /*
+        TOTAL RESMI
+
+        Mengambil langsung dari:
+
+        summary.totalPengeluaran
+
+        sehingga harus:
+
+        Rp30.054.673
+    */
+
+    document.getElementById(
+        "totalTable"
+    ).textContent =
+        rupiah(
+            summary.totalPengeluaran
+        );
+
+
+    /*
+        Buat chart
+    */
 
     buatChart(data);
+
 }
 
-function hitungJumlahItem(cashflow){
 
-    const stok = Array.isArray(cashflow.stokFNB)
-        ? cashflow.stokFNB.length
-        : 0;
+/* =====================================================
+   HITUNG JUMLAH ITEM
+===================================================== */
 
-    const investasi = Array.isArray(cashflow.investasi)
-        ? cashflow.investasi.length
-        : 0;
+function hitungJumlahItem(
+    cashflow
+){
 
-    const operasional = Array.isArray(cashflow.pengeluaranOperasional)
-        ? cashflow.pengeluaranOperasional.length
-        : 0;
 
-    return stok + investasi + operasional;
+    const stok =
+
+        Array.isArray(
+            cashflow.stokFNB
+        )
+        ?
+        cashflow.stokFNB.length
+        :
+        0;
+
+
+    const investasi =
+
+        Array.isArray(
+            cashflow.investasi
+        )
+        ?
+        cashflow.investasi.length
+        :
+        0;
+
+
+    const operasional =
+
+        Array.isArray(
+            cashflow.pengeluaranOperasional
+        )
+        ?
+        cashflow.pengeluaranOperasional.length
+        :
+        0;
+
+
+    return (
+
+        stok +
+        investasi +
+        operasional
+
+    );
+
 }
+
+
+/* =====================================================
+   CHART
+===================================================== */
 
 function buatChart(data){
 
-    if(pieChart) pieChart.destroy();
-    if(barChart) barChart.destroy();
 
-    // =========================
-    // PIE CHART
-    // =========================
+    /*
+        Hapus chart lama
+    */
+
+    if(pieChart){
+
+        pieChart.destroy();
+
+    }
+
+
+    if(barChart){
+
+        barChart.destroy();
+
+    }
+
+
+    const summary =
+        data.summary || {};
+
+
+    const cashflow =
+        data.cashflow || {};
+
+
+    /* =================================================
+       PIE CHART
+    ================================================= */
+
+
+    const totalStok =
+        Number(
+            summary.totalStok || 0
+        );
+
+
+    const totalInvestasi =
+        Number(
+            summary.totalInvestasi || 0
+        );
+
+
+    const totalOperasional =
+        Number(
+            summary.totalPengeluaranOperasional || 0
+        );
+
+
+    const rekonsiliasi =
+        Number(
+            summary.penyesuaianRekonsiliasi || 0
+        );
+
 
     pieChart = new Chart(
-        document.getElementById("chartPie"),
+
+        document.getElementById(
+            "chartPie"
+        ),
+
         {
+
             type:"doughnut",
 
+
             data:{
+
                 labels:[
+
                     "Stok F&B",
+
                     "Investasi",
+
                     "Operasional",
+
                     "Rekonsiliasi"
+
                 ],
 
+
                 datasets:[{
+
                     data:[
-                        Number(data.summary.totalStok || 0),
-                        Number(data.summary.totalInvestasi || 0),
-                        Number(data.summary.totalPengeluaranOperasional || 0),
-                        Number(data.summary.penyesuaianRekonsiliasi || 0)
+
+                        totalStok,
+
+                        totalInvestasi,
+
+                        totalOperasional,
+
+                        rekonsiliasi
+
                     ]
+
                 }]
+
             },
 
+
             options:{
+
                 responsive:true,
 
+                maintainAspectRatio:false,
+
+
                 plugins:{
+
                     legend:{
+
                         position:"bottom"
+
                     },
 
+
                     tooltip:{
+
                         callbacks:{
-                            label:function(context){
-                                return context.label + ": " +
-                                    rupiah(context.raw);
-                            }
+
+                            label:
+                                function(
+                                    context
+                                ){
+
+                                    return (
+
+                                        context.label +
+
+                                        ": " +
+
+                                        rupiah(
+                                            context.raw
+                                        )
+
+                                    );
+
+                                }
+
                         }
+
                     }
+
                 }
+
             }
+
         }
+
     );
 
-    // =========================
-    // BAR CHART
-    // =========================
 
-    const investasi = Array.isArray(data.cashflow.investasi)
-        ? [...data.cashflow.investasi]
-        : [];
+    /* =================================================
+       BAR CHART
+    ================================================= */
+
+
+    let investasi =
+
+        Array.isArray(
+            cashflow.investasi
+        )
+        ?
+        [...cashflow.investasi]
+        :
+        [];
+
+
+    /*
+        Urutkan terbesar
+    */
 
     investasi.sort(
+
         (a,b) =>
-            Number(b.harga || 0) -
-            Number(a.harga || 0)
+
+            Number(
+                b.harga || 0
+            )
+            -
+            Number(
+                a.harga || 0
+            )
+
     );
 
-    const topInvestasi = investasi.slice(0,8);
+
+    /*
+        Ambil 8 terbesar
+    */
+
+    const topInvestasi =
+        investasi.slice(
+            0,
+            8
+        );
+
 
     barChart = new Chart(
-        document.getElementById("chartBar"),
+
+        document.getElementById(
+            "chartBar"
+        ),
+
         {
+
             type:"bar",
 
+
             data:{
+
                 labels:
-                    topInvestasi.map(x => x.nama),
+
+                    topInvestasi.map(
+                        x =>
+                            x.nama
+                    ),
+
 
                 datasets:[{
-                    label:"Rupiah",
+
+                    label:
+                        "Rupiah",
+
 
                     data:
+
                         topInvestasi.map(
-                            x => Number(x.harga || 0)
+
+                            x =>
+                                Number(
+                                    x.harga ||
+                                    0
+                                )
+
                         )
+
                 }]
+
             },
 
+
             options:{
+
                 indexAxis:"y",
+
                 responsive:true,
 
+                maintainAspectRatio:false,
+
+
                 plugins:{
+
                     legend:{
+
                         display:false
+
                     },
 
+
                     tooltip:{
+
                         callbacks:{
-                            label:function(context){
-                                return rupiah(context.raw);
-                            }
+
+                            label:
+                                function(
+                                    context
+                                ){
+
+                                    return rupiah(
+                                        context.raw
+                                    );
+
+                                }
+
                         }
+
                     }
+
                 },
 
+
                 scales:{
+
                     x:{
+
                         ticks:{
-                            callback:function(value){
-                                return rupiah(value);
-                            }
+
+                            callback:
+                                function(
+                                    value
+                                ){
+
+                                    return rupiah(
+                                        value
+                                    );
+
+                                }
+
                         }
+
                     }
+
                 }
+
             }
+
         }
+
     );
+
 }
 
-// =========================
-// SAVE IMAGE
-// =========================
+
+/* =====================================================
+   SAVE IMAGE
+===================================================== */
 
 async function saveImage(){
 
-    const area =
-        document.getElementById("dashboard");
 
-    const canvas =
-        await html2canvas(
-            area,
-            {
-                scale:2,
-                backgroundColor:"#ffffff"
-            }
+    try{
+
+
+        const area =
+            document.getElementById(
+                "dashboard"
+            );
+
+
+        const canvas =
+            await html2canvas(
+
+                area,
+
+                {
+
+                    scale:2,
+
+                    backgroundColor:
+                        "#ffffff",
+
+                    useCORS:true
+
+                }
+
+            );
+
+
+        const link =
+            document.createElement(
+                "a"
+            );
+
+
+        link.download =
+            "Dashboard_Kopi_Melek_24_Jam.png";
+
+
+        link.href =
+            canvas.toDataURL(
+                "image/png"
+            );
+
+
+        link.click();
+
+
+    }
+
+    catch(error){
+
+        console.error(
+            "Gagal membuat gambar:",
+            error
         );
 
-    const link =
-        document.createElement("a");
 
-    link.download =
-        "Dashboard_Kopi_Melek_24_Jam.png";
+        alert(
+            "Gagal membuat gambar dashboard."
+        );
 
-    link.href =
-        canvas.toDataURL("image/png");
+    }
 
-    link.click();
 }
 
-// Mulai membaca data.json
+
+/* =====================================================
+   MULAI APLIKASI
+===================================================== */
+
 loadData();
+
 </script>
 
+
 </body>
+
 </html>
