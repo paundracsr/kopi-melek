@@ -9,7 +9,6 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
-        /* ========================= RESET ========================= */
         * {
             margin: 0;
             padding: 0;
@@ -173,7 +172,7 @@
             text-align: center;
             border-bottom: 1px solid #ddd;
         }
-        td:nth-child(3) {
+        td:nth-child(4) {
             text-align: left;
         }
         .total-row {
@@ -312,7 +311,7 @@
                             <th>Bulan</th>
                             <th>Kategori</th>
                             <th>Nama</th>
-                            <th>Qty</th>
+                            <th>Item</th>
                             <th>Total</th>
                         </tr>
                     </thead>
@@ -368,7 +367,6 @@
             if (!select) return;
             select.innerHTML = "";
 
-            // Opsi pertama: Semua Bulan (index = -1)
             const optAll = document.createElement("option");
             optAll.value = "-1";
             optAll.textContent = "📊 Semua Bulan";
@@ -381,8 +379,7 @@
                 select.appendChild(opt);
             });
 
-            select.value = "-1"; // default tampilkan semua
-
+            select.value = "-1";
             select.addEventListener("change", function() {
                 const val = parseInt(this.value);
                 if (val === -1) {
@@ -397,7 +394,6 @@
         // RENDER SEMUA BULAN (AGREGAT)
         // =====================================================
         function renderAllMonths() {
-            // Gabungkan semua data dari semua bulan
             const allData = {
                 summary: {
                     totalStok: 0,
@@ -425,8 +421,7 @@
                 const cf = month.cashflow || {};
                 if (Array.isArray(cf.stokFNB)) allData.cashflow.stokFNB.push(...cf.stokFNB);
                 if (Array.isArray(cf.investasi)) allData.cashflow.investasi.push(...cf.investasi);
-                if (Array.isArray(cf.pengeluaranOperasional)) allData.cashflow.pengeluaranOperasional.push(...cf
-                    .pengeluaranOperasional);
+                if (Array.isArray(cf.pengeluaranOperasional)) allData.cashflow.pengeluaranOperasional.push(...cf.pengeluaranOperasional);
                 if (cf.rekonsiliasi) {
                     if (Array.isArray(cf.rekonsiliasi)) {
                         allData.cashflow.rekonsiliasi.push(...cf.rekonsiliasi);
@@ -436,8 +431,6 @@
                 }
             });
 
-            // Simpan data agregat ke variabel global agar bisa dipakai di fungsi render
-            // Kita panggil fungsi render dengan data palsu yang berisi field 'isAll' true
             renderDashboardWithData(allData, true);
         }
 
@@ -465,7 +458,6 @@
             document.getElementById("totalInvestasi").textContent = rupiah(summary.totalInvestasi);
             document.getElementById("totalStok").textContent = rupiah(summary.totalStok);
 
-            // Hitung jumlah item dari array
             const stokArr = Array.isArray(cashflow.stokFNB) ? cashflow.stokFNB : [];
             const invArr = Array.isArray(cashflow.investasi) ? cashflow.investasi : [];
             const operArr = Array.isArray(cashflow.pengeluaranOperasional) ? cashflow.pengeluaranOperasional : [];
@@ -480,29 +472,11 @@
             tbody.innerHTML = "";
             let no = 1;
 
-            function tambahBaris(item, kategori, bulanLabel) {
-                const total = Number(item.harga || 0);
-                tbody.innerHTML += `
-                    <tr>
-                        <td>${no++}</td>
-                        <td>${escapeHTML(bulanLabel)}</td>
-                        <td>${escapeHTML(kategori)}</td>
-                        <td>${escapeHTML(item.nama)}</td>
-                        <td>${escapeHTML(item.qty ?? "-")}</td>
-                        <td>${rupiah(total)}</td>
-                    </tr>
-                `;
-            }
-
-            // Jika data agregat, kita perlu tahu asal bulan setiap item. 
-            // Karena kita gabungkan tanpa menyimpan asal bulan, maka untuk "Semua Bulan" kita labeli "Gabungan".
-            // Tapi lebih baik kita tampilkan bulan asal jika tersedia. Namun karena data agregat tidak punya info bulan, kita akan beri label "Gabungan".
-            // Untuk data tunggal, kita ambil nama bulan dari laporanData.
+            // Tentukan label bulan untuk setiap item
             let bulanLabel = "";
             if (isAll) {
                 bulanLabel = "Semua Bulan";
             } else {
-                // cari bulan dari data (kita bisa simpan di data.month saat render, tapi kita tidak punya). Kita ambil dari select value.
                 const select = document.getElementById("bulanSelect");
                 const selectedIndex = parseInt(select.value);
                 if (selectedIndex >= 0 && laporanData.months[selectedIndex]) {
@@ -512,11 +486,27 @@
                 }
             }
 
-            // Iterasi semua kategori
-            stokArr.forEach(item => tambahBaris(item, "Stok F&B", bulanLabel));
-            invArr.forEach(item => tambahBaris(item, "Investasi", bulanLabel));
-            operArr.forEach(item => tambahBaris(item, "Operasional", bulanLabel));
-            rekArr.forEach(item => tambahBaris(item, "Rekonsiliasi", bulanLabel));
+            // Gabungkan semua item dengan kategori masing-masing
+            const semuaItem = [
+                ...stokArr.map(item => ({ ...item, kategori: "Stok F&B" })),
+                ...invArr.map(item => ({ ...item, kategori: "Investasi" })),
+                ...operArr.map(item => ({ ...item, kategori: "Operasional" })),
+                ...rekArr.map(item => ({ ...item, kategori: "Rekonsiliasi" }))
+            ];
+
+            semuaItem.forEach(item => {
+                const total = Number(item.harga || 0);
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${no++}</td>
+                        <td>${escapeHTML(bulanLabel)}</td>
+                        <td>${escapeHTML(item.kategori)}</td>
+                        <td style="text-align:left;">${escapeHTML(item.nama)}</td>
+                        <td>${escapeHTML(item.qty ?? "-")}</td>
+                        <td>${rupiah(total)}</td>
+                    </tr>
+                `;
+            });
 
             document.getElementById("totalTable").textContent = rupiah(summary.totalPengeluaran);
 
@@ -533,7 +523,6 @@
             if (barChart) { barChart.destroy();
                 barChart = null; }
 
-            // PIE
             const totalStok = Number(summary.totalStok || 0);
             const totalInvestasi = Number(summary.totalInvestasi || 0);
             const totalOperasional = Number(summary.totalPengeluaranOperasional || 0);
@@ -561,7 +550,6 @@
                 }
             });
 
-            // BAR
             let investasiArr = Array.isArray(cashflow.investasi) ? [...cashflow.investasi] : [];
             investasiArr.sort((a, b) => Number(b.harga || 0) - Number(a.harga || 0));
             const topInvestasi = investasiArr.slice(0, 8);
@@ -638,7 +626,6 @@
                     laporanData = data;
                     status.innerHTML = "✅ Data berhasil dimuat dari: <b>" + escapeHTML(urls[i]) + "</b>";
                     populateBulanSelect();
-                    // Default: tampilkan semua bulan
                     renderAllMonths();
                     return;
                 } catch (error) {
