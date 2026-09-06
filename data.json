@@ -773,6 +773,69 @@
         "Selisih Rp436.419 tidak dipecah menjadi produk baru karena tidak ada rincian sumber yang cukup jelas pada gambar; disimpan sebagai penyesuaian rekonsiliasi agar total tidak dibuat-buat.",
         "Kolom TOTAL pada catatan dibaca sebagai nilai pengeluaran per baris."
       ]
+    },
+    {
+      "month": "September 2026",
+      "business": "Kopi Melek 24 Jam",
+      "summary": {
+        "totalStok": 994000,
+        "totalInvestasi": 0,
+        "totalPengeluaranOperasional": 0,
+        "totalPengeluaran": 994000,
+        "totalItemStok": 38,
+        "totalItemTeridentifikasi": 994000,
+        "penyesuaianRekonsiliasi": 0
+      },
+      "cashflow": {
+        "stokFNB": [
+          { "nama": "Sedotan", "qty": 100, "harga": 18000 },
+          { "nama": "Plastik Es", "qty": 1, "harga": 8000 },
+          { "nama": "Plastik Peyek", "qty": 9, "harga": 43500 },
+          { "nama": "Kecap", "qty": 2, "harga": 35000 },
+          { "nama": "Cabe (lombu)", "qty": 5, "harga": 85000 },
+          { "nama": "Bumbu Urap", "qty": 2, "harga": 22000 },
+          { "nama": "Sasa Santan", "qty": 2, "harga": 10000 },
+          { "nama": "Santan", "qty": 1, "harga": 5000 },
+          { "nama": "Ikan Asin 1kg", "qty": 1, "harga": 42000 },
+          { "nama": "Good Day Freeze", "qty": 20, "harga": 57000 },
+          { "nama": "Gula", "qty": 1, "harga": 9500 },
+          { "nama": "Plastik", "qty": 1, "harga": 3000 },
+          { "nama": "Bawang", "qty": 1, "harga": 1000 },
+          { "nama": "Cabe", "qty": 1, "harga": 5000 },
+          { "nama": "Pancoy/Sari", "qty": 1, "harga": 5000 },
+          { "nama": "Book Jogging", "qty": 1, "harga": 6000 },
+          { "nama": "Fajro DAPI", "qty": 1, "harga": 5000 },
+          { "nama": "TOMAK", "qty": 3, "harga": 5000 },
+          { "nama": "EK BARU", "qty": 3, "harga": 20000 },
+          { "nama": "TEJUK", "qty": 1, "harga": 10000 },
+          { "nama": "TAGYOGI", "qty": 1, "harga": 80000 },
+          { "nama": "Rumah Lidah", "qty": 2, "harga": 100000 },
+          { "nama": "Rumah Rock", "qty": 1, "harga": 20000 },
+          { "nama": "Sumurun", "qty": 1, "harga": 30000 },
+          { "nama": "Beki Ride", "qty": 4, "harga": 80000 },
+          { "nama": "Cuma", "qty": 1, "harga": 10000 },
+          { "nama": "Barurawal", "qty": 1, "harga": 20000 },
+          { "nama": "Air danam", "qty": 5, "harga": 25000 },
+          { "nama": "Bermayor", "qty": 2, "harga": 90000 },
+          { "nama": "Muyak Gengg", "qty": 2, "harga": 41000 },
+          { "nama": "Udyog", "qty": 1, "harga": 10500 },
+          { "nama": "Jogung", "qty": 2, "harga": 12500 },
+          { "nama": "Rok Of / Sari", "qty": 1, "harga": 9500 },
+          { "nama": "Kapal Aji", "qty": 20, "harga": 18500 },
+          { "nama": "Agama Gising", "qty": 1, "harga": 20000 },
+          { "nama": "Kulik Agam", "qty": 1, "harga": 15000 },
+          { "nama": "Timun", "qty": 1, "harga": 6000 },
+          { "nama": "Teju Sombit", "qty": 1, "harga": 11000 }
+        ],
+        "investasi": [],
+        "pengeluaranOperasional": [],
+        "rekonsiliasi": null
+      },
+      "hargaJual": [],
+      "catatan": [
+        "Data pembelian bulan September 2026 dari catatan tangan (dua gambar).",
+        "Total pengeluaran Rp994.000 dari 38 item stok F&B."
+      ]
     }
   ]
 }
