@@ -97,6 +97,40 @@ body{
     font-size:13px;
 }
 
+/* =========================
+   DROPDOWN BULAN
+========================= */
+
+.bulan-selector {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.bulan-selector label {
+    font-weight: bold;
+    color: #1e293b;
+}
+
+.bulan-selector select {
+    padding: 8px 14px;
+    border-radius: 30px;
+    border: 1px solid #cbd5e1;
+    background: #f8fafc;
+    font-weight: bold;
+    font-size: 14px;
+    color: #1e293b;
+    cursor: pointer;
+    outline: none;
+    transition: 0.2s;
+}
+
+.bulan-selector select:hover {
+    border-color: #94a3b8;
+    background: #f1f5f9;
+}
+
 
 /* =========================
    BUTTON
@@ -447,8 +481,17 @@ td:nth-child(3){
         </div>
 
 
-        <div>
+        <div style="display:flex; align-items:center; gap:15px; flex-wrap:wrap;">
 
+            <!-- PILIH BULAN -->
+            <div class="bulan-selector">
+                <label for="bulanSelect">📅 Bulan:</label>
+                <select id="bulanSelect">
+                    <!-- diisi oleh JavaScript -->
+                </select>
+            </div>
+
+            <!-- TOMBOL -->
             <button
                 class="btn"
                 onclick="saveImage()"
@@ -582,7 +625,7 @@ td:nth-child(3){
             </h3>
 
 
-            <div class="chart-container">
+            <div class="chart-container" id="pieContainer">
 
                 <canvas
                     id="chartPie"
@@ -603,11 +646,15 @@ td:nth-child(3){
             </h3>
 
 
-            <div class="chart-container">
+            <div class="chart-container" id="barContainer">
 
                 <canvas
                     id="chartBar"
                 ></canvas>
+
+                <div id="barEmptyMessage" style="display:none; color:#64748b; text-align:center; padding:40px 0;">
+                    Tidak ada data investasi untuk bulan ini.
+                </div>
 
             </div>
 
@@ -756,213 +803,76 @@ function escapeHTML(value){
 
 
 /* =====================================================
-   LOAD JSON
-=====================================================
-
-   PRIORITAS:
-
-   1. ./data.json
-
-   2. Raw GitHub
-
-   Repository:
-   paundracsr/kopi-melek
-
+   POPULATE DROPDOWN BULAN
 ===================================================== */
 
-async function loadData(){
+function populateBulanSelect() {
 
-
-    const status =
+    const select =
         document.getElementById(
-            "loadStatus"
+            "bulanSelect"
         );
 
+    if(!select) return;
 
-    /*
-        URL pertama.
+    select.innerHTML = "";
 
-        Jika website dijalankan melalui:
+    laporanData.months.forEach(
+        (m, i) => {
 
-        https://paundracsr.github.io/kopi-melek/
-
-        maka browser otomatis mencari:
-
-        https://paundracsr.github.io/kopi-melek/data.json
-    */
-
-    const urls = [
-
-        "./data.json",
-
-        "https://raw.githubusercontent.com/paundracsr/kopi-melek/main/data.json"
-
-    ];
-
-
-    let lastError = null;
-
-
-    for(
-        let i = 0;
-        i < urls.length;
-        i++
-    ){
-
-
-        try{
-
-
-            status.innerHTML =
-                "⏳ Membaca data.json...";
-
-
-            const response =
-                await fetch(
-                    urls[i],
-                    {
-                        method:"GET",
-
-                        cache:"no-store",
-
-                        headers:{
-                            "Accept":
-                            "application/json"
-                        }
-                    }
+            const opt =
+                document.createElement(
+                    "option"
                 );
 
+            opt.value = i;
 
-            if(!response.ok){
+            opt.textContent = m.month;
 
-                throw new Error(
-                    "HTTP " +
-                    response.status
-                );
-
-            }
-
-
-            const data =
-                await response.json();
-
-
-            /*
-                Validasi struktur JSON
-            */
-
-            if(
-                !data ||
-                !Array.isArray(
-                    data.months
-                ) ||
-                data.months.length === 0
-            ){
-
-                throw new Error(
-                    "Struktur data.json tidak valid."
-                );
-
-            }
-
-
-            /*
-                Berhasil
-            */
-
-            laporanData = data;
-
-
-            status.innerHTML =
-                "✅ Data berhasil dimuat dari: " +
-                "<b>" +
-                escapeHTML(urls[i]) +
-                "</b>";
-
-
-            renderDashboard();
-
-
-            return;
-
-
-        }catch(error){
-
-            console.warn(
-                "Gagal mengambil:",
-                urls[i],
-                error
-            );
-
-
-            lastError = error;
+            select.appendChild(opt);
 
         }
+    );
 
-    }
+    select.value = 0;
 
+    select.addEventListener(
+        "change",
+        function() {
 
-    /*
-        Semua URL gagal
-    */
+            renderDashboardByIndex(
+                parseInt(
+                    this.value
+                )
+            );
 
-    status.innerHTML = `
-
-        <div class="error-box">
-
-            <b>❌ data.json tidak dapat dibaca.</b>
-
-            <br><br>
-
-            Pastikan file berada di:
-
-            <br>
-
-            <b>
-            repository root /data.json
-            </b>
-
-            <br><br>
-
-            Struktur GitHub harus:
-
-            <br><br>
-
-            <b>
-            kopi-melek/
-            <br>
-            ├── index.html
-            <br>
-            └── data.json
-            </b>
-
-            <br><br>
-
-            Error terakhir:
-
-            <br>
-
-            ${escapeHTML(
-                lastError?.message ||
-                "Unknown error"
-            )}
-
-        </div>
-
-    `;
+        }
+    );
 
 }
 
 
 /* =====================================================
-   RENDER DASHBOARD
+   RENDER DASHBOARD (BERDASARKAN INDEX BULAN)
 ===================================================== */
 
-function renderDashboard(){
-
+function renderDashboardByIndex(index) {
 
     const data =
-        laporanData.months[0];
+        laporanData.months[
+            index
+        ];
+
+    if(!data) {
+
+        console.error(
+            "Data tidak ditemukan untuk index:",
+            index
+        );
+
+        return;
+
+    }
 
 
     const summary =
@@ -1001,18 +911,6 @@ function renderDashboard(){
             summary.totalStok
         );
 
-
-    /*
-        Prioritas jumlah item:
-
-        totalItemTeridentifikasi
-        ↓
-        totalItemStok
-        ↓
-        totalProduk
-        ↓
-        hitung otomatis
-    */
 
     const jumlahItem =
 
@@ -1084,16 +982,6 @@ function renderDashboard(){
         [];
 
 
-    /*
-        Rekonsiliasi bisa berupa:
-
-        object
-
-        atau
-
-        array
-    */
-
     let rekonsiliasi = [];
 
 
@@ -1117,31 +1005,6 @@ function renderDashboard(){
         ];
 
     }
-
-
-    /*
-        PENTING:
-
-        Kolom harga pada JSON adalah
-        TOTAL pengeluaran per baris.
-
-        Jadi:
-
-        SALAH:
-        harga × qty
-
-        BENAR:
-        harga
-
-        Contoh:
-
-        qty = 9
-        harga = 11090
-
-        Total = Rp11.090
-
-        bukan Rp99.810.
-    */
 
 
     function tambahBaris(
@@ -1193,10 +1056,6 @@ function renderDashboard(){
     }
 
 
-    /*
-        STOK
-    */
-
     stok.forEach(
         item =>
             tambahBaris(
@@ -1205,10 +1064,6 @@ function renderDashboard(){
             )
     );
 
-
-    /*
-        INVESTASI
-    */
 
     investasi.forEach(
         item =>
@@ -1219,10 +1074,6 @@ function renderDashboard(){
     );
 
 
-    /*
-        OPERASIONAL
-    */
-
     operasional.forEach(
         item =>
             tambahBaris(
@@ -1232,10 +1083,6 @@ function renderDashboard(){
     );
 
 
-    /*
-        REKONSILIASI
-    */
-
     rekonsiliasi.forEach(
         item =>
             tambahBaris(
@@ -1244,18 +1091,6 @@ function renderDashboard(){
             )
     );
 
-
-    /*
-        TOTAL RESMI
-
-        Mengambil langsung dari:
-
-        summary.totalPengeluaran
-
-        sehingga harus:
-
-        Rp30.054.673
-    */
 
     document.getElementById(
         "totalTable"
@@ -1341,6 +1176,7 @@ function buatChart(data){
     if(pieChart){
 
         pieChart.destroy();
+        pieChart = null;
 
     }
 
@@ -1348,6 +1184,7 @@ function buatChart(data){
     if(barChart){
 
         barChart.destroy();
+        barChart = null;
 
     }
 
@@ -1491,7 +1328,7 @@ function buatChart(data){
     ================================================= */
 
 
-    let investasi =
+    let investasiArr =
 
         Array.isArray(
             cashflow.investasi
@@ -1506,7 +1343,7 @@ function buatChart(data){
         Urutkan terbesar
     */
 
-    investasi.sort(
+    investasiArr.sort(
 
         (a,b) =>
 
@@ -1526,112 +1363,142 @@ function buatChart(data){
     */
 
     const topInvestasi =
-        investasi.slice(
+        investasiArr.slice(
             0,
             8
         );
 
 
-    barChart = new Chart(
-
+    const barCanvas =
         document.getElementById(
             "chartBar"
-        ),
+        );
 
-        {
-
-            type:"bar",
-
-
-            data:{
-
-                labels:
-
-                    topInvestasi.map(
-                        x =>
-                            x.nama
-                    ),
+    const barMessage =
+        document.getElementById(
+            "barEmptyMessage"
+        );
 
 
-                datasets:[{
+    if(topInvestasi.length === 0) {
 
-                    label:
-                        "Rupiah",
+        // Sembunyikan canvas, tampilkan pesan
+        barCanvas.style.display =
+            "none";
+
+        barMessage.style.display =
+            "block";
+
+    } else {
+
+        // Tampilkan canvas, sembunyikan pesan
+        barCanvas.style.display =
+            "block";
+
+        barMessage.style.display =
+            "none";
 
 
-                    data:
+        barChart = new Chart(
+
+            barCanvas,
+
+            {
+
+                type:"bar",
+
+
+                data:{
+
+                    labels:
 
                         topInvestasi.map(
-
                             x =>
-                                Number(
-                                    x.harga ||
-                                    0
-                                )
-
-                        )
-
-                }]
-
-            },
+                                x.nama
+                        ),
 
 
-            options:{
+                    datasets:[{
 
-                indexAxis:"y",
-
-                responsive:true,
-
-                maintainAspectRatio:false,
+                        label:
+                            "Rupiah",
 
 
-                plugins:{
+                        data:
 
-                    legend:{
+                            topInvestasi.map(
 
-                        display:false
+                                x =>
+                                    Number(
+                                        x.harga ||
+                                        0
+                                    )
 
-                    },
+                            )
 
-
-                    tooltip:{
-
-                        callbacks:{
-
-                            label:
-                                function(
-                                    context
-                                ){
-
-                                    return rupiah(
-                                        context.raw
-                                    );
-
-                                }
-
-                        }
-
-                    }
+                    }]
 
                 },
 
 
-                scales:{
+                options:{
 
-                    x:{
+                    indexAxis:"y",
 
-                        ticks:{
+                    responsive:true,
 
-                            callback:
-                                function(
-                                    value
-                                ){
+                    maintainAspectRatio:false,
 
-                                    return rupiah(
+
+                    plugins:{
+
+                        legend:{
+
+                            display:false
+
+                        },
+
+
+                        tooltip:{
+
+                            callbacks:{
+
+                                label:
+                                    function(
+                                        context
+                                    ){
+
+                                        return rupiah(
+                                            context.raw
+                                        );
+
+                                    }
+
+                            }
+
+                        }
+
+                    },
+
+
+                    scales:{
+
+                        x:{
+
+                            ticks:{
+
+                                callback:
+                                    function(
                                         value
-                                    );
+                                    ){
 
-                                }
+                                        return rupiah(
+                                            value
+                                        );
+
+                                    }
+
+                            }
 
                         }
 
@@ -1641,9 +1508,175 @@ function buatChart(data){
 
             }
 
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   LOAD JSON
+===================================================== */
+
+async function loadData(){
+
+
+    const status =
+        document.getElementById(
+            "loadStatus"
+        );
+
+
+    const urls = [
+
+        "./data.json",
+
+        "https://raw.githubusercontent.com/paundracsr/kopi-melek/main/data.json"
+
+    ];
+
+
+    let lastError = null;
+
+
+    for(
+        let i = 0;
+        i < urls.length;
+        i++
+    ){
+
+
+        try{
+
+
+            status.innerHTML =
+                "⏳ Membaca data.json...";
+
+
+            const response =
+                await fetch(
+                    urls[i],
+                    {
+                        method:"GET",
+
+                        cache:"no-store",
+
+                        headers:{
+                            "Accept":
+                            "application/json"
+                        }
+                    }
+                );
+
+
+            if(!response.ok){
+
+                throw new Error(
+                    "HTTP " +
+                    response.status
+                );
+
+            }
+
+
+            const data =
+                await response.json();
+
+
+            if(
+                !data ||
+                !Array.isArray(
+                    data.months
+                ) ||
+                data.months.length === 0
+            ){
+
+                throw new Error(
+                    "Struktur data.json tidak valid."
+                );
+
+            }
+
+
+            laporanData = data;
+
+
+            status.innerHTML =
+                "✅ Data berhasil dimuat dari: " +
+                "<b>" +
+                escapeHTML(urls[i]) +
+                "</b>";
+
+
+            // Isi dropdown & tampilkan bulan pertama
+            populateBulanSelect();
+            renderDashboardByIndex(0);
+
+
+            return;
+
+
+        }catch(error){
+
+            console.warn(
+                "Gagal mengambil:",
+                urls[i],
+                error
+            );
+
+
+            lastError = error;
+
         }
 
-    );
+    }
+
+
+    status.innerHTML = `
+
+        <div class="error-box">
+
+            <b>❌ data.json tidak dapat dibaca.</b>
+
+            <br><br>
+
+            Pastikan file berada di:
+
+            <br>
+
+            <b>
+            repository root /data.json
+            </b>
+
+            <br><br>
+
+            Struktur GitHub harus:
+
+            <br><br>
+
+            <b>
+            kopi-melek/
+            <br>
+            ├── index.html
+            <br>
+            └── data.json
+            </b>
+
+            <br><br>
+
+            Error terakhir:
+
+            <br>
+
+            ${escapeHTML(
+                lastError?.message ||
+                "Unknown error"
+            )}
+
+        </div>
+
+    `;
 
 }
 
