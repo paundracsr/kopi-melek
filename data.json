@@ -16,7 +16,8 @@
           "premium": 15000
         },
         "totalItemTeridentifikasi": 29618254,
-        "penyesuaianRekonsiliasi": 436419
+        "penyesuaianRekonsiliasi": 436419,
+        "pendapatan": 0
       },
       "cashflow": {
         "stokFNB": [
@@ -185,7 +186,7 @@
         "Total akhir mengikuti angka pada gambar ke-5: Rp30.054.673.",
         "Data produk, stok, investasi, operasional, dan tambahan chat disusun dari gambar 1-4 dan catatan teks.",
         "Tambahan chat yang dimasukkan: sedotan Rp18.000, plastik es Rp8.000, plastik peyek Rp43.500, figura sertifikat Rp65.000, poster 14 pcs Rp300.000, kecap Rp35.000, cabe Rp85.000, bumbu urap Rp22.000, Sasa santan Rp10.000, santan Rp5.000, ikan asin Rp42.000.",
-        "Selisih Rp436.419 tidak dipecah menjadi produk baru karena tidak ada rincian sumber yang cukup jelas pada gambar; disimpan sebagai penyesuaian rekonsiliasi agar total tidak dibuat-buat.",
+        "Selisih Rp436.419 tidak dipecah menjadi produk baru karena tidak ada rincian sumber yang cukup jelas pada gambar; disimpan sebagai penyesuaian rekosiliasi agar total tidak dibuat-buat.",
         "Kolom TOTAL pada catatan dibaca sebagai nilai pengeluaran per baris."
       ]
     },
@@ -199,7 +200,8 @@
         "totalPengeluaran": 3164500,
         "totalItemStok": 38,
         "totalItemTeridentifikasi": 38,
-        "penyesuaianRekonsiliasi": 0
+        "penyesuaianRekonsiliasi": 0,
+        "pendapatan": 4176000
       },
       "cashflow": {
         "stokFNB": [
