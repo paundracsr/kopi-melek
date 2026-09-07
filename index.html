@@ -123,7 +123,7 @@
 
         .summary {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 18px;
             margin-bottom: 25px;
         }
@@ -143,7 +143,7 @@
 
         .summary-card h2 {
             margin-top: 10px;
-            font-size: 25px;
+            font-size: 22px;
             word-break: break-word;
         }
 
@@ -153,6 +153,14 @@
 
         .green {
             color: #15803d;
+        }
+
+        .blue {
+            color: #2563eb;
+        }
+
+        .purple {
+            color: #7c3aed;
         }
 
         .chart-grid {
@@ -212,6 +220,24 @@
             background: #f8fafc;
         }
 
+        .profit-row {
+            font-weight: bold;
+            background: #f0fdf4;
+            border-top: 2px solid #15803d;
+        }
+
+        .loss-row {
+            font-weight: bold;
+            background: #fef2f2;
+            border-top: 2px solid #dc2626;
+        }
+
+        .income-row {
+            font-weight: bold;
+            background: #eff6ff;
+            border-top: 2px solid #2563eb;
+        }
+
         .error-box {
             background: #fef2f2;
             color: #991b1b;
@@ -251,7 +277,7 @@
             }
 
             .summary-card h2 {
-                font-size: 22px;
+                font-size: 20px;
             }
         }
 
@@ -311,27 +337,42 @@
         <div class="summary">
 
             <div class="summary-card">
-                <span>Total Pengeluaran</span>
+                <span>💵 Total Pendapatan</span>
+                <h2 id="totalPendapatan" class="green">Rp 0</h2>
+            </div>
+
+            <div class="summary-card">
+                <span>📉 Total Pengeluaran</span>
                 <h2 id="totalPengeluaran" class="red">Rp 0</h2>
             </div>
 
             <div class="summary-card">
-                <span>Total Investasi</span>
+                <span>📈 Laba Operasional (Bulan Ini)</span>
+                <h2 id="labaOperasional" class="blue">Rp 0</h2>
+            </div>
+
+            <div class="summary-card">
+                <span>🏦 Laba Kumulatif (dgn Investasi Awal)</span>
+                <h2 id="labaKumulatif" class="purple">Rp 0</h2>
+            </div>
+
+            <div class="summary-card">
+                <span>📦 Total Investasi</span>
                 <h2 id="totalInvestasi">Rp 0</h2>
             </div>
 
             <div class="summary-card">
-                <span>Total Stok F&B</span>
+                <span>🥤 Total Stok F&B</span>
                 <h2 id="totalStok">Rp 0</h2>
             </div>
 
             <div class="summary-card">
-                <span>Jumlah Item</span>
+                <span>📋 Jumlah Item</span>
                 <h2 id="jumlahProduk">0 Item</h2>
             </div>
 
             <div class="summary-card">
-                <span>Harga Customer</span>
+                <span>💲 Harga Customer</span>
                 <h2 class="green">Rp8.000 - Rp15.000</h2>
             </div>
 
@@ -368,7 +409,7 @@
         <!-- TABLE -->
         <div class="card">
 
-            <h3>📋 Detail Pengeluaran Kopi Melek 24 Jam</h3>
+            <h3>📋 Detail Pengeluaran & Pendapatan Kopi Melek 24 Jam</h3>
 
             <div class="table-scroll">
 
@@ -380,10 +421,7 @@
                             <th>Bulan</th>
                             <th>Kategori</th>
                             <th>Nama</th>
-
-                            <!-- SUDAH DIUBAH DARI QTY MENJADI ITEM -->
                             <th>Item</th>
-
                             <th>Total</th>
                         </tr>
                     </thead>
@@ -391,9 +429,17 @@
                     <tbody id="dataTable"></tbody>
 
                     <tfoot>
+                        <tr class="income-row">
+                            <td colspan="5">💵 TOTAL PENDAPATAN</td>
+                            <td id="totalPendapatanTable">Rp 0</td>
+                        </tr>
                         <tr class="total-row">
-                            <td colspan="5">TOTAL</td>
+                            <td colspan="5">📉 TOTAL PENGELUARAN</td>
                             <td id="totalTable">Rp 0</td>
+                        </tr>
+                        <tr id="labaRow" class="profit-row">
+                            <td colspan="5">📈 LABA / RUGI (Kumulatif)</td>
+                            <td id="totalLabaTable">Rp 0</td>
                         </tr>
                     </tfoot>
 
@@ -403,7 +449,7 @@
         </div>
 
         <div class="footer">
-            Data laporan diambil secara otomatis dari <b>data.json</b>.
+            Data laporan diambil secara otomatis dari <b>data.json</b>. Periode 7 Agustus – 6 September 2026 pendapatan Rp4.176.000.
         </div>
 
     </div>
@@ -417,6 +463,7 @@
         let laporanData = null;
         let pieChart = null;
         let barChart = null;
+        let currentMonthIndex = -1; // -1 = All Months
 
 
         // =====================================================
@@ -424,9 +471,7 @@
         // =====================================================
 
         function rupiah(angka) {
-
             return "Rp " + Number(angka || 0).toLocaleString("id-ID");
-
         }
 
 
@@ -435,14 +480,12 @@
         // =====================================================
 
         function escapeHTML(value) {
-
             return String(value ?? "")
                 .replace(/&/g, "&amp;")
                 .replace(/</g, "&lt;")
                 .replace(/>/g, "&gt;")
                 .replace(/"/g, "&quot;")
                 .replace(/'/g, "&#039;");
-
         }
 
 
@@ -451,412 +494,200 @@
         // =====================================================
 
         function populateBulanSelect() {
-
             const select = document.getElementById("bulanSelect");
-
             if (!select) return;
-
             select.innerHTML = "";
 
-
-            // SEMUA BULAN
-
             const optAll = document.createElement("option");
-
             optAll.value = "-1";
             optAll.textContent = "📊 Semua Bulan";
-
             select.appendChild(optAll);
 
-
-            // DAFTAR BULAN
-
             laporanData.months.forEach((m, i) => {
-
                 const opt = document.createElement("option");
-
                 opt.value = i;
                 opt.textContent = m.month;
-
                 select.appendChild(opt);
-
             });
-
 
             select.value = "-1";
 
-
-            // CHANGE BULAN
-
             select.addEventListener("change", function() {
-
                 const val = parseInt(this.value);
-
+                currentMonthIndex = val;
                 if (val === -1) {
-
-                    renderAllMonths();
-
+                    renderDashboard();
                 } else {
-
-                    renderDashboardByIndex(val);
-
+                    renderDashboard(val);
                 }
-
             });
-
         }
 
 
         // =====================================================
-        // RENDER SEMUA BULAN
+        // RENDER DASHBOARD (UTAMA)
         // =====================================================
 
-        function renderAllMonths() {
+        function renderDashboard(selectedIndex = -1) {
 
-            const allData = {
+            if (!laporanData) return;
 
-                summary: {
+            // Tentukan indeks akhir untuk kalkulasi kumulatif
+            let endIndex = laporanData.months.length - 1;
+            if (selectedIndex >= 0 && selectedIndex < laporanData.months.length) {
+                endIndex = selectedIndex;
+            }
 
-                    totalStok: 0,
-                    totalInvestasi: 0,
-                    totalPengeluaranOperasional: 0,
-                    totalPengeluaran: 0,
-                    penyesuaianRekonsiliasi: 0
+            // =================================================
+            // HITUNG KUMULATIF (Pendapatan & Pengeluaran)
+            // =================================================
+            let cumulativePendapatan = 0;
+            let cumulativePengeluaran = 0;
+            let cumulativeInvestasi = 0;
+            let cumulativeStok = 0;
+            let cumulativeOperasional = 0;
+            let cumulativeRekonsiliasi = 0;
 
-                },
+            // Kumpulkan semua item untuk tabel
+            let allItems = [];
+            let bulanLabel = "Semua Bulan";
 
-                cashflow: {
-
-                    stokFNB: [],
-                    investasi: [],
-                    pengeluaranOperasional: [],
-                    rekonsiliasi: []
-
-                }
-
-            };
-
-
-            laporanData.months.forEach(month => {
-
+            for (let i = 0; i <= endIndex; i++) {
+                const month = laporanData.months[i];
                 const s = month.summary || {};
-
-
-                allData.summary.totalStok +=
-                    Number(s.totalStok || 0);
-
-                allData.summary.totalInvestasi +=
-                    Number(s.totalInvestasi || 0);
-
-                allData.summary.totalPengeluaranOperasional +=
-                    Number(s.totalPengeluaranOperasional || 0);
-
-                allData.summary.totalPengeluaran +=
-                    Number(s.totalPengeluaran || 0);
-
-                allData.summary.penyesuaianRekonsiliasi +=
-                    Number(s.penyesuaianRekonsiliasi || 0);
-
-
                 const cf = month.cashflow || {};
 
+                cumulativePendapatan += Number(s.pendapatan || 0);
+                cumulativePengeluaran += Number(s.totalPengeluaran || 0);
+                cumulativeInvestasi += Number(s.totalInvestasi || 0);
+                cumulativeStok += Number(s.totalStok || 0);
+                cumulativeOperasional += Number(s.totalPengeluaranOperasional || 0);
+                cumulativeRekonsiliasi += Number(s.penyesuaianRekonsiliasi || 0);
 
-                if (Array.isArray(cf.stokFNB)) {
-
-                    allData.cashflow.stokFNB.push(
-                        ...cf.stokFNB
-                    );
-
+                // Siapkan label bulan
+                if (selectedIndex === i) {
+                    bulanLabel = month.month;
                 }
 
+                // Ambil item untuk tabel
+                const stokArr = Array.isArray(cf.stokFNB) ? cf.stokFNB : [];
+                const invArr = Array.isArray(cf.investasi) ? cf.investasi : [];
+                const operArr = Array.isArray(cf.pengeluaranOperasional) ? cf.pengeluaranOperasional : [];
+                let rekArr = [];
+                if (Array.isArray(cf.rekonsiliasi)) rekArr = cf.rekonsiliasi;
+                else if (cf.rekonsiliasi) rekArr = [cf.rekonsiliasi];
 
-                if (Array.isArray(cf.investasi)) {
-
-                    allData.cashflow.investasi.push(
-                        ...cf.investasi
-                    );
-
-                }
-
-
-                if (Array.isArray(cf.pengeluaranOperasional)) {
-
-                    allData.cashflow.pengeluaranOperasional.push(
-                        ...cf.pengeluaranOperasional
-                    );
-
-                }
-
-
-                if (cf.rekonsiliasi) {
-
-                    if (Array.isArray(cf.rekonsiliasi)) {
-
-                        allData.cashflow.rekonsiliasi.push(
-                            ...cf.rekonsiliasi
-                        );
-
-                    } else {
-
-                        allData.cashflow.rekonsiliasi.push(
-                            cf.rekonsiliasi
-                        );
-
-                    }
-
-                }
-
-            });
-
-
-            renderDashboardWithData(allData, true);
-
-        }
-
-
-        // =====================================================
-        // RENDER DASHBOARD BERDASARKAN BULAN
-        // =====================================================
-
-        function renderDashboardByIndex(index) {
-
-            const data = laporanData.months[index];
-
-
-            if (!data) {
-
-                console.error(
-                    "Data tidak ditemukan untuk index:",
-                    index
+                allItems.push(
+                    ...stokArr.map(item => ({ ...item, kategori: "Stok F&B", bulan: month.month })),
+                    ...invArr.map(item => ({ ...item, kategori: "Investasi", bulan: month.month })),
+                    ...operArr.map(item => ({ ...item, kategori: "Operasional", bulan: month.month })),
+                    ...rekArr.map(item => ({ ...item, kategori: "Rekonsiliasi", bulan: month.month }))
                 );
-
-                return;
-
             }
 
-
-            renderDashboardWithData(data, false);
-
-        }
-
-
-        // =====================================================
-        // RENDER DENGAN DATA
-        // =====================================================
-
-        function renderDashboardWithData(data, isAll) {
-
-            const summary = data.summary || {};
-            const cashflow = data.cashflow || {};
-
-
-            // =================================================
-            // SUMMARY
-            // =================================================
-
-            document.getElementById("totalPengeluaran").textContent =
-                rupiah(summary.totalPengeluaran);
-
-
-            document.getElementById("totalInvestasi").textContent =
-                rupiah(summary.totalInvestasi);
-
-
-            document.getElementById("totalStok").textContent =
-                rupiah(summary.totalStok);
-
-
-            // =================================================
-            // DATA ARRAY
-            // =================================================
-
-            const stokArr =
-                Array.isArray(cashflow.stokFNB)
-                    ? cashflow.stokFNB
-                    : [];
-
-
-            const invArr =
-                Array.isArray(cashflow.investasi)
-                    ? cashflow.investasi
-                    : [];
-
-
-            const operArr =
-                Array.isArray(cashflow.pengeluaranOperasional)
-                    ? cashflow.pengeluaranOperasional
-                    : [];
-
-
-            let rekArr = [];
-
-
-            if (Array.isArray(cashflow.rekonsiliasi)) {
-
-                rekArr = cashflow.rekonsiliasi;
-
-            } else if (cashflow.rekonsiliasi) {
-
-                rekArr = [cashflow.rekonsiliasi];
-
+            if (selectedIndex === -1) {
+                bulanLabel = "Semua Bulan";
             }
 
+            // =================================================
+            // HITUNG LABA
+            // =================================================
+            const labaOperasionalBulanIni = cumulativePendapatan - cumulativePengeluaran; // Untuk view kumulatif
+            // Tapi untuk "Laba Operasional (Bulan Ini)" kita ambil dari bulan yang dipilih saja.
+            let labaBulanIni = 0;
+            if (selectedIndex >= 0) {
+                const month = laporanData.months[selectedIndex];
+                const s = month.summary || {};
+                labaBulanIni = Number(s.pendapatan || 0) - Number(s.totalPengeluaran || 0);
+            } else {
+                // Jika "Semua Bulan", laba bulan ini = laba kumulatif
+                labaBulanIni = cumulativePendapatan - cumulativePengeluaran;
+            }
+
+            const labaKumulatif = cumulativePendapatan - cumulativePengeluaran;
 
             // =================================================
-            // JUMLAH ITEM
+            // UPDATE SUMMARY CARDS
             // =================================================
+            document.getElementById("totalPendapatan").textContent = rupiah(cumulativePendapatan);
+            document.getElementById("totalPengeluaran").textContent = rupiah(cumulativePengeluaran);
+            document.getElementById("totalInvestasi").textContent = rupiah(cumulativeInvestasi);
+            document.getElementById("totalStok").textContent = rupiah(cumulativeStok);
 
-            const jumlahItem =
-                stokArr.length +
-                invArr.length +
-                operArr.length +
-                rekArr.length;
+            const elLabaOperasional = document.getElementById("labaOperasional");
+            elLabaOperasional.textContent = rupiah(labaBulanIni);
+            elLabaOperasional.style.color = labaBulanIni >= 0 ? '#15803d' : '#dc2626';
 
+            const elLabaKumulatif = document.getElementById("labaKumulatif");
+            elLabaKumulatif.textContent = rupiah(labaKumulatif);
+            elLabaKumulatif.style.color = labaKumulatif >= 0 ? '#15803d' : '#dc2626';
 
-            document.getElementById("jumlahProduk").textContent =
-                jumlahItem + " Item";
-
+            document.getElementById("jumlahProduk").textContent = allItems.length + " Item";
 
             // =================================================
             // TABLE
             // =================================================
-
-            const tbody =
-                document.getElementById("dataTable");
-
-
+            const tbody = document.getElementById("dataTable");
             tbody.innerHTML = "";
-
-
             let no = 1;
 
-
-            // =================================================
-            // LABEL BULAN
-            // =================================================
-
-            let bulanLabel = "";
-
-
-            if (isAll) {
-
-                bulanLabel = "Semua Bulan";
-
-            } else {
-
-                const select =
-                    document.getElementById("bulanSelect");
-
-
-                const selectedIndex =
-                    parseInt(select.value);
-
-
-                if (
-                    selectedIndex >= 0 &&
-                    laporanData.months[selectedIndex]
-                ) {
-
-                    bulanLabel =
-                        laporanData.months[selectedIndex].month;
-
-                } else {
-
-                    bulanLabel = "Bulan ini";
-
-                }
-
-            }
-
-
-            // =================================================
-            // GABUNGKAN SEMUA DATA
-            // =================================================
-
-            const semuaItem = [
-
-                ...stokArr.map(item => ({
-                    ...item,
-                    kategori: "Stok F&B"
-                })),
-
-                ...invArr.map(item => ({
-                    ...item,
-                    kategori: "Investasi"
-                })),
-
-                ...operArr.map(item => ({
-                    ...item,
-                    kategori: "Operasional"
-                })),
-
-                ...rekArr.map(item => ({
-                    ...item,
-                    kategori: "Rekonsiliasi"
-                }))
-
-            ];
-
-
-            // =================================================
-            // TAMPILKAN DATA KE TABLE
-            // =================================================
-
-            semuaItem.forEach(item => {
-
-                const total =
-                    Number(item.harga || 0);
-
-
+            // Tampilkan item pengeluaran
+            allItems.forEach(item => {
+                const total = Number(item.harga || 0);
                 tbody.innerHTML += `
-
                     <tr>
-
-                        <td>
-                            ${no++}
-                        </td>
-
-                        <td>
-                            ${escapeHTML(bulanLabel)}
-                        </td>
-
-                        <td>
-                            ${escapeHTML(item.kategori)}
-                        </td>
-
-                        <td style="text-align:left;">
-                            ${escapeHTML(item.nama)}
-                        </td>
-
-                        <td>
-                            ${escapeHTML(item.qty ?? "-")}
-                        </td>
-
-                        <td>
-                            ${rupiah(total)}
-                        </td>
-
+                        <td>${no++}</td>
+                        <td>${escapeHTML(item.bulan || bulanLabel)}</td>
+                        <td>${escapeHTML(item.kategori)}</td>
+                        <td style="text-align:left;">${escapeHTML(item.nama)}</td>
+                        <td>${escapeHTML(item.qty ?? "-")}</td>
+                        <td>${rupiah(total)}</td>
                     </tr>
-
                 `;
-
             });
 
+            // Baris Pendapatan
+            tbody.innerHTML += `
+                <tr class="income-row">
+                    <td>${no++}</td>
+                    <td>${escapeHTML(bulanLabel)}</td>
+                    <td>💵 PENDAPATAN</td>
+                    <td style="text-align:left;">Total pemasukan periode terpilih</td>
+                    <td>-</td>
+                    <td>${rupiah(cumulativePendapatan)}</td>
+                </tr>
+            `;
+
+            // Baris Laba/Rugi
+            const labaClass = labaKumulatif >= 0 ? 'profit-row' : 'loss-row';
+            const labaLabel = labaKumulatif >= 0 ? '📈 LABA BERSIH (Kumulatif)' : '📉 RUGI BERSIH (Kumulatif)';
+            tbody.innerHTML += `
+                <tr class="${labaClass}">
+                    <td>${no++}</td>
+                    <td>${escapeHTML(bulanLabel)}</td>
+                    <td>📊 LABA/RUGI</td>
+                    <td style="text-align:left;">${labaKumulatif >= 0 ? 'Untung' : 'Rugi'} (Termasuk Investasi Awal)</td>
+                    <td>-</td>
+                    <td>${rupiah(labaKumulatif)}</td>
+                </tr>
+            `;
+
+            // Update Tfoot
+            document.getElementById("totalPendapatanTable").textContent = rupiah(cumulativePendapatan);
+            document.getElementById("totalTable").textContent = rupiah(cumulativePengeluaran);
+            document.getElementById("totalLabaTable").textContent = rupiah(labaKumulatif);
+
+            const labaRow = document.getElementById("labaRow");
+            if (labaKumulatif >= 0) {
+                labaRow.className = 'profit-row';
+            } else {
+                labaRow.className = 'loss-row';
+            }
 
             // =================================================
-            // TOTAL TABLE
+            // CHART (Pakai data kumulatif terakhir)
             // =================================================
-
-            document.getElementById("totalTable").textContent =
-                rupiah(summary.totalPengeluaran);
-
-
-            // =================================================
-            // CHART
-            // =================================================
-
-            buatChart(summary, cashflow);
-
+            buatChart(cumulativeStok, cumulativeInvestasi, cumulativeOperasional, cumulativeRekonsiliasi, allItems);
         }
 
 
@@ -864,258 +695,104 @@
         // CHART
         // =====================================================
 
-        function buatChart(summary, cashflow) {
+        function buatChart(totalStok, totalInvestasi, totalOperasional, rekonsiliasi, allItems) {
 
+            if (pieChart) { pieChart.destroy();
+                pieChart = null; }
+            if (barChart) { barChart.destroy();
+                barChart = null; }
 
-            // HAPUS CHART LAMA
-
-            if (pieChart) {
-
-                pieChart.destroy();
-                pieChart = null;
-
-            }
-
-
-            if (barChart) {
-
-                barChart.destroy();
-                barChart = null;
-
-            }
-
-
-            // =================================================
-            // DATA CASH FLOW
-            // =================================================
-
-            const totalStok =
-                Number(summary.totalStok || 0);
-
-
-            const totalInvestasi =
-                Number(summary.totalInvestasi || 0);
-
-
-            const totalOperasional =
-                Number(summary.totalPengeluaranOperasional || 0);
-
-
-            const rekonsiliasi =
-                Number(summary.penyesuaianRekonsiliasi || 0);
-
-
-            // =================================================
             // PIE CHART
-            // =================================================
-
             pieChart = new Chart(
                 document.getElementById("chartPie"),
                 {
-
                     type: "doughnut",
-
                     data: {
-
-                        labels: [
-                            "Stok F&B",
-                            "Investasi",
-                            "Operasional",
-                            "Rekonsiliasi"
-                        ],
-
-                        datasets: [
-
-                            {
-
-                                data: [
-                                    totalStok,
-                                    totalInvestasi,
-                                    totalOperasional,
-                                    rekonsiliasi
-                                ]
-
-                            }
-
-                        ]
-
+                        labels: ["Stok F&B", "Investasi", "Operasional", "Rekonsiliasi"],
+                        datasets: [{
+                            data: [totalStok, totalInvestasi, totalOperasional, rekonsiliasi]
+                        }]
                     },
-
                     options: {
-
                         responsive: true,
-
                         maintainAspectRatio: false,
-
                         plugins: {
-
-                            legend: {
-                                position: "bottom"
-                            },
-
+                            legend: { position: "bottom" },
                             tooltip: {
-
                                 callbacks: {
-
                                     label: function(context) {
-
-                                        return (
-                                            context.label +
-                                            ": " +
-                                            rupiah(context.raw)
-                                        );
-
+                                        return context.label + ": " + rupiah(context.raw);
                                     }
-
                                 }
-
                             }
-
                         }
-
                     }
-
                 }
-
             );
 
-
-            // =================================================
             // BAR CHART INVESTASI
-            // =================================================
+            let investasiArr = allItems.filter(item => item.kategori === "Investasi");
+            // Kelompokkan berdasarkan nama jika ada duplikat
+            const grouped = {};
+            investasiArr.forEach(item => {
+                const nama = item.nama;
+                if (grouped[nama]) {
+                    grouped[nama] += Number(item.harga || 0);
+                } else {
+                    grouped[nama] = Number(item.harga || 0);
+                }
+            });
+            let groupedArr = Object.keys(grouped).map(key => ({ nama: key, harga: grouped[key] }));
+            groupedArr.sort((a, b) => b.harga - a.harga);
+            const topInvestasi = groupedArr.slice(0, 8);
 
-            let investasiArr =
-                Array.isArray(cashflow.investasi)
-                    ? [...cashflow.investasi]
-                    : [];
-
-
-            investasiArr.sort(
-                (a, b) =>
-                    Number(b.harga || 0) -
-                    Number(a.harga || 0)
-            );
-
-
-            const topInvestasi =
-                investasiArr.slice(0, 8);
-
-
-            const barCanvas =
-                document.getElementById("chartBar");
-
-
-            const barMessage =
-                document.getElementById("barEmptyMessage");
-
-
-            // TIDAK ADA DATA INVESTASI
+            const barCanvas = document.getElementById("chartBar");
+            const barMessage = document.getElementById("barEmptyMessage");
 
             if (topInvestasi.length === 0) {
-
                 barCanvas.style.display = "none";
                 barMessage.style.display = "block";
-
             } else {
-
                 barCanvas.style.display = "block";
                 barMessage.style.display = "none";
-
-
                 barChart = new Chart(
                     barCanvas,
                     {
-
                         type: "bar",
-
                         data: {
-
-                            labels:
-                                topInvestasi.map(
-                                    x => x.nama
-                                ),
-
-                            datasets: [
-
-                                {
-
-                                    label: "Rupiah",
-
-                                    data:
-                                        topInvestasi.map(
-                                            x =>
-                                                Number(
-                                                    x.harga || 0
-                                                )
-                                        )
-
-                                }
-
-                            ]
-
+                            labels: topInvestasi.map(x => x.nama),
+                            datasets: [{
+                                label: "Rupiah",
+                                data: topInvestasi.map(x => x.harga)
+                            }]
                         },
-
                         options: {
-
                             indexAxis: "y",
-
                             responsive: true,
-
                             maintainAspectRatio: false,
-
                             plugins: {
-
-                                legend: {
-                                    display: false
-                                },
-
+                                legend: { display: false },
                                 tooltip: {
-
                                     callbacks: {
-
                                         label: function(context) {
-
-                                            return rupiah(
-                                                context.raw
-                                            );
-
+                                            return rupiah(context.raw);
                                         }
-
                                     }
-
                                 }
-
                             },
-
                             scales: {
-
                                 x: {
-
                                     ticks: {
-
-                                        callback:
-                                            function(value) {
-
-                                                return rupiah(
-                                                    value
-                                                );
-
-                                            }
-
+                                        callback: function(value) {
+                                            return rupiah(value);
+                                        }
                                     }
-
                                 }
-
                             }
-
                         }
-
                     }
-
                 );
-
             }
-
         }
 
 
@@ -1124,160 +801,60 @@
         // =====================================================
 
         async function loadData() {
-
-            const status =
-                document.getElementById("loadStatus");
-
-
+            const status = document.getElementById("loadStatus");
             const urls = [
-
                 "./data.json",
-
                 "https://raw.githubusercontent.com/paundracsr/kopi-melek/main/data.json"
-
             ];
-
-
             let lastError = null;
 
-
-            for (
-                let i = 0;
-                i < urls.length;
-                i++
-            ) {
-
+            for (let i = 0; i < urls.length; i++) {
                 try {
-
-                    status.innerHTML =
-                        "⏳ Membaca data.json...";
-
-
-                    const response =
-                        await fetch(
-                            urls[i],
-                            {
-                                method: "GET",
-                                cache: "no-store",
-                                headers: {
-                                    "Accept":
-                                        "application/json"
-                                }
-                            }
-                        );
-
-
+                    status.innerHTML = "⏳ Membaca data.json...";
+                    const response = await fetch(urls[i], {
+                        method: "GET",
+                        cache: "no-store",
+                        headers: { "Accept": "application/json" }
+                    });
                     if (!response.ok) {
-
-                        throw new Error(
-                            "HTTP " +
-                            response.status
-                        );
-
+                        throw new Error("HTTP " + response.status);
                     }
-
-
-                    const data =
-                        await response.json();
-
-
-                    if (
-                        !data ||
-                        !Array.isArray(data.months) ||
-                        data.months.length === 0
-                    ) {
-
-                        throw new Error(
-                            "Struktur data.json tidak valid."
-                        );
-
+                    const data = await response.json();
+                    if (!data || !Array.isArray(data.months) || data.months.length === 0) {
+                        throw new Error("Struktur data.json tidak valid.");
                     }
-
-
                     laporanData = data;
-
-
-                    status.innerHTML =
-                        "✅ Data berhasil dimuat dari: <b>" +
-                        escapeHTML(urls[i]) +
-                        "</b>";
-
-
+                    status.innerHTML = "✅ Data berhasil dimuat dari: <b>" + escapeHTML(urls[i]) + "</b>";
                     populateBulanSelect();
-
-
-                    renderAllMonths();
-
-
+                    renderDashboard(-1); // Default: Semua Bulan
                     return;
-
                 } catch (error) {
-
-                    console.warn(
-                        "Gagal mengambil:",
-                        urls[i],
-                        error
-                    );
-
-
+                    console.warn("Gagal mengambil:", urls[i], error);
                     lastError = error;
-
                 }
-
             }
 
-
-            // =================================================
-            // ERROR
-            // =================================================
-
             status.innerHTML = `
-
                 <div class="error-box">
-
-                    <b>
-                        ❌ data.json tidak dapat dibaca.
-                    </b>
-
+                    <b>❌ data.json tidak dapat dibaca.</b>
                     <br><br>
-
                     Pastikan file berada di:
-
                     <br>
-
-                    <b>
-                        repository root /data.json
-                    </b>
-
+                    <b>repository root /data.json</b>
                     <br><br>
-
                     Struktur GitHub harus:
-
                     <br><br>
-
                     <b>
-
                         kopi-melek/<br>
                         ├── index.html<br>
                         └── data.json
-
                     </b>
-
                     <br><br>
-
                     Error terakhir:
-
                     <br>
-
-                    ${escapeHTML(
-                        lastError?.message ||
-                        "Unknown error"
-                    )}
-
+                    ${escapeHTML(lastError?.message || "Unknown error")}
                 </div>
-
             `;
-
         }
 
 
@@ -1286,57 +863,21 @@
         // =====================================================
 
         async function saveImage() {
-
             try {
-
-                const area =
-                    document.getElementById(
-                        "dashboard"
-                    );
-
-
-                const canvas =
-                    await html2canvas(
-                        area,
-                        {
-                            scale: 2,
-                            backgroundColor:
-                                "#ffffff",
-                            useCORS: true
-                        }
-                    );
-
-
-                const link =
-                    document.createElement("a");
-
-
-                link.download =
-                    "Dashboard_Kopi_Melek_24_Jam.png";
-
-
-                link.href =
-                    canvas.toDataURL(
-                        "image/png"
-                    );
-
-
+                const area = document.getElementById("dashboard");
+                const canvas = await html2canvas(area, {
+                    scale: 2,
+                    backgroundColor: "#ffffff",
+                    useCORS: true
+                });
+                const link = document.createElement("a");
+                link.download = "Dashboard_Kopi_Melek_24_Jam.png";
+                link.href = canvas.toDataURL("image/png");
                 link.click();
-
             } catch (error) {
-
-                console.error(
-                    "Gagal membuat gambar:",
-                    error
-                );
-
-
-                alert(
-                    "Gagal membuat gambar dashboard."
-                );
-
+                console.error("Gagal membuat gambar:", error);
+                alert("Gagal membuat gambar dashboard.");
             }
-
         }
 
 
