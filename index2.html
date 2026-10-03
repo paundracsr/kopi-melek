@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tagihan Gaji Karyawan</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: #ffffff;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 1.2em;
+            margin: 10px 0;
+        }
+        #countdown {
+            font-size: 2em;
+            color: #ff4757;
+            margin: 20px 0;
+        }
+        #message {
+            display: none;
+            font-size: 1.5em;
+            color: #2ed573;
+        }
+        .account-info {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .account-info p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Tagihan Gaji Karyawan</h1>
+    <p>Gaji saya belum dibayarkan.</p>
+    <p>Segera selesaikan pembayaran gaji saya.</p>
+    
+    <div class="account-info">
+        <p><strong>Informasi Rekening:</strong></p>
+        <p>BCA: 1730292488</p>
+        <p>Atas Nama: Paundra Caesar Rama Dhani</p>
+    </div>
+
+    <p>Halaman ini akan ditutup dalam:</p>
+    <div id="countdown">120:00</div>
+    <div id="message">Sistem telah ditutup. Mohon segera hubungi saya untuk menyelesaikan masalah ini.</div>
+
+    <script>
+        let timeLeft = 120 * 60; // 120 menit dalam detik
+        const countdownElement = document.getElementById('countdown');
+        const messageElement = document.getElementById('message');
+
+        const countdownTimer = setInterval(() => {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            countdownElement.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            timeLeft--;
+
+            if (timeLeft < 0) {
+                clearInterval(countdownTimer);
+                countdownElement.style.display = 'none';
+                messageElement.style.display = 'block';
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
