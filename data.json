@@ -196,8 +196,8 @@
       "summary": {
         "totalStok": 2443990,
         "totalInvestasi": 0,
-        "totalPengeluaranOperasional": 5588000,
-        "totalPengeluaran": 8031990,
+        "totalPengeluaranOperasional": 6086000,
+        "totalPengeluaran": 8529990,
         "totalItemStok": 112,
         "totalItemTeridentifikasi": 112,
         "penyesuaianRekonsiliasi": 0,
@@ -322,16 +322,18 @@
         "pengeluaranOperasional": [
           {"nama": "Gaji Karyawan", "qty": 3, "harga": 2460000},
           {"nama": "Gaji karyawan (28/9)", "qty": 3, "harga": 3008000},
-          {"nama": "Token listrik (28/9)", "qty": 1, "harga": 120000}
+          {"nama": "Token listrik (28/9)", "qty": 1, "harga": 120000},
+          {"nama": "Gaji karyawan (03/10)", "qty": 1, "harga": 498000}
         ],
         "rekonsiliasi": null
       },
       "hargaJual": [],
       "catatan": [
         "Data pembelian bulan September 2026 dari catatan tangan yang diperbarui.",
-        "Total stok Rp2.443.990, gaji Rp5.468.000, operasional lain Rp120.000, total pengeluaran Rp8.031.990.",
+        "Total stok Rp2.443.990, gaji Rp5.966.000, operasional lain Rp120.000, total pengeluaran Rp8.529.990.",
         "Tambahan 10 September 2026: Mie 3 (50.000), Micin 1 (1.000), Galon 2 (10.000), Teh Bubuk 1 (10.000), Powder Bawang 1 (11.000), Baygon 1 (6.000), Ayam 1 (50.000). Total tambahan Rp138.000.",
         "Tambahan 28 September 2026: 67 item stok F&B (Rp1.601.490), Gaji karyawan (Rp3.008.000), Token listrik (Rp120.000). Total tambahan Rp4.729.490.",
+        "Tambahan gaji karyawan (03/10): qty 1, Rp498.000. Total operasional September menjadi Rp6.086.000, total pengeluaran September Rp8.529.990.",
         "Catatan: qty di data 28/9 tidak dikalikan — angka terakhir adalah TOTAL per baris."
       ]
     }
